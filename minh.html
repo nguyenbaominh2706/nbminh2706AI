@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nbminh2706AI - Toán Học & Trí Tuệ Nhân Tạo</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --primary-blue: #1a2980;
+            --secondary-blue: #26d0ce;
+            --light-blue: #e6f0ff;
+            --white: #ffffff;
+            --dark-text: #1a2980;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 50%, var(--light-blue) 100%);
+            color: var(--dark-text);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle, var(--primary-blue) 1px, transparent 1px),
+                radial-gradient(circle, var(--secondary-blue) 1px, transparent 1px),
+                linear-gradient(90deg, transparent 79px, rgba(38, 208, 206, 0.1) 79px, transparent 81px),
+                linear-gradient(0deg, transparent 79px, rgba(26, 41, 128, 0.1) 79px, transparent 81px);
+            background-size: 
+                40px 40px,
+                60px 60px,
+                80px 80px,
+                80px 80px;
+            background-position: 
+                10% 10%,
+                90% 90%,
+                0 0,
+                0 0;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 20px 5%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo h1 {
+            font-size: 28px;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .logo-icon {
+            font-size: 32px;
+            color: var(--primary-blue);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--dark-text);
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        nav a:hover {
+            background: rgba(26, 41, 128, 0.1);
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 80px 5%;
+            background: rgba(255, 255, 255, 0.7);
+            margin: 20px 5%;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .hero h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(26, 41, 128, 0.3);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(26, 41, 128, 0.4);
+        }
+        
+        .features {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 5%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(5px);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--primary-blue);
+        }
+        
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--primary-blue);
+        }
+        
+        .feature-card p {
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .feature-button {
+            display: inline-block;
+            background: rgba(26, 41, 128, 0.1);
+            color: var(--primary-blue);
+            padding: 8px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-button:hover {
+            background: var(--primary-blue);
+            color: white;
+        }
+        
+        .section {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 5%;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 40px;
+            color: var(--primary-blue);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: "";
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+        
+        .math-display {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: center;
+            font-size: 18px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        footer {
+            background: rgba(26, 41, 128, 0.9);
+            color: white;
+            text-align: center;
+            padding: 30px 5%;
+            margin-top: 80px;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-logo {
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--secondary-blue);
+        }
+        
+        .copyright {
+            margin-top: 20px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            font-size: 24px;
+            color: var(--primary-blue);
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--dark-text);
+        }
+        
+        .chat-container {
+            margin-top: 20px;
+        }
+        
+        .chat-messages {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            background: #f9f9f9;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+        
+        .user-message {
+            background: var(--light-blue);
+            margin-left: auto;
+            text-align: right;
+        }
+        
+        .ai-message {
+            background: #e8f4f8;
+            margin-right: auto;
+        }
+        
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-input textarea {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            min-height: 60px;
+        }
+        
+        .send-button {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .send-button:hover {
+            background: var(--secondary-blue);
+        }
+        
+        /* Quiz styles */
+        .quiz-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .quiz-question {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .quiz-option {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option:hover {
+            background: #f0f8ff;
+        }
+        
+        .quiz-option.selected {
+            background: var(--light-blue);
+            border-color: var(--primary-blue);
+        }
+        
+        .quiz-navigation {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .quiz-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-button.prev {
+            background: #f0f0f0;
+        }
+        
+        .quiz-button.next {
+            background: var(--primary-blue);
+            color: white;
+        }
+        
+        .quiz-button:hover {
+            opacity: 0.9;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            
+            .hero h2 {
+                font-size: 32px;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">∑</div>
+                <h1>nbminh2706AI</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Trang chủ</a></li>
+                    <li><a href="#features">Tính năng</a></li>
+                    <li><a href="#about">Giới thiệu</a></li>
+                    <li><a href="#contact">Liên hệ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <h2>Khám phá Toán học cùng Trí tuệ Nhân tạo</h2>
+        <p>nbminh2706AI là nền tảng học toán thông minh kết hợp sức mạnh của AI để giúp bạn giải toán, học tập và khám phá thế giới toán học một cách thú vị và hiệu quả.</p>
+        <a href="#features" class="cta-button">Bắt đầu ngay</a>
+        
+        <div class="math-display">
+            <p>Ví dụ về công thức toán học: 
+                <br>Định lý Pythagore: \(a^2 + b^2 = c^2\)
+                <br>Công thức nghiệm phương trình bậc hai: \(x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}\)
+            </p>
+        </div>
+    </section>
+
+    <section id="features" class="section">
+        <h2 class="section-title">Các Tính Năng Chính</h2>
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3>Giải toán với AI-Chatbot</h3>
+                <p>Sử dụng trí tuệ nhân tạo để giải đáp mọi thắc mắc toán học của bạn, từ đại số đến giải tích.</p>
+                <a href="#" class="feature-button" onclick="openModal('chatbot-modal')">Thử ngay</a>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <h3>Phát hiện lỗi bài làm</h3>
+                <p>Tải lên bài làm tự luận và nhận phản hồi chi tiết về các lỗi sai cùng gợi ý cải thiện.</p>
+                <a href="#" class="feature-button" onclick="openModal('error-check-modal')">Khám phá</a>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">👨‍🔬</div>
+                <h3>Nhà toán học nổi tiếng</h3>
+                <p>Tìm hiểu về cuộc đời, thành tựu và đóng góp của các nhà toán học vĩ đại trong lịch sử.</p>
+                <a href="#" class="feature-button" onclick="openModal('mathematicians-modal')">Tìm hiểu</a>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🎮</div>
+                <h3>Trò chơi toán học</h3>
+                <p>Tham gia các trò chơi đố vui toán học thú vị để rèn luyện tư duy và kiến thức.</p>
+                <a href="#" class="feature-button" onclick="openModal('games-modal')">Chơi ngay</a>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📝</div>
+                <h3>Bài kiểm tra trắc nghiệm</h3>
+                <p>Làm bài kiểm tra toán học theo hình thức trắc nghiệm và nhận kết quả tức thì.</p>
+                <a href="#" class="feature-button" onclick="openModal('quiz-modal')">Làm bài</a>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3>Tài liệu toán học</h3>
+                <p>Truy cập thư viện tài liệu toán học phong phú từ cơ bản đến nâng cao.</p>
+                <a href="#" class="feature-button" onclick="openModal('resources-modal')">Tìm kiếm</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section">
+        <h2 class="section-title">Về nbminh2706AI</h2>
+        <div class="math-display">
+            <p>nbminh2706AI là dự án kết hợp giữa Toán học và Trí tuệ Nhân tạo, hướng đến mục tiêu làm cho việc học toán trở nên dễ dàng, thú vị và hiệu quả hơn cho mọi người.</p>
+            <p>Ứng dụng các thuật toán AI tiên tiến, chúng tôi cung cấp các công cụ hỗ trợ học tập thông minh, giúp người dùng không chỉ giải toán mà còn hiểu sâu về bản chất của các khái niệm toán học.</p>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-logo">nbminh2706AI</div>
+            <div class="footer-links">
+                <a href="#home">Trang chủ</a>
+                <a href="#features">Tính năng</a>
+                <a href="#about">Giới thiệu</a>
+                <a href="#">Điều khoản sử dụng</a>
+                <a href="#">Chính sách bảo mật</a>
+            </div>
+            <p>Liên hệ: contact@nbminh2706ai.com</p>
+            <div class="copyright">© 2023 nbminh2706AI. Tất cả các quyền được bảo lưu.</div>
+        </div>
+    </footer>
+
+    <!-- Modal for Chatbot -->
+    <div id="chatbot-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Giải toán với AI-Chatbot</h3>
+                <button class="close-modal" onclick="closeModal('chatbot-modal')">×</button>
+            </div>
+            <p>Nhập câu hỏi toán học của bạn và nhận giải đáp từ AI:</p>
+            <div class="chat-container">
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message ai-message">
+                        Xin chào! Tôi là trợ lý toán học AI. Hãy đặt câu hỏi toán học và tôi sẽ giúp bạn giải đáp.
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <textarea id="chat-input" placeholder="Nhập câu hỏi toán học của bạn..."></textarea>
+                    <button class="send-button" onclick="sendMessage()">Gửi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Error Check -->
+    <div id="error-check-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Phát hiện lỗi bài làm</h3>
+                <button class="close-modal" onclick="closeModal('error-check-modal')">×</button>
+            </div>
+            <p>Tải lên bài làm tự luận của bạn (hỗ trợ định dạng ảnh hoặc PDF):</p>
+            <div style="margin: 20px 0;">
+                <input type="file" id="upload-file" accept="image/*,.pdf" style="margin-bottom: 15px;">
+                <button class="send-button" onclick="analyzeDocument()">Phân tích</button>
+            </div>
+            <div id="error-analysis-result" style="display: none;">
+                <h4>Kết quả phân tích:</h4>
+                <p>Chức năng này đang được phát triển. Trong tương lai, AI sẽ phân tích bài làm và chỉ ra các lỗi sai cùng gợi ý sửa chữa.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Mathematicians -->
+    <div id="mathematicians-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Nhà toán học nổi tiếng</h3>
+                <button class="close-modal" onclick="closeModal('mathematicians-modal')">×</button>
+            </div>
+            <p>Chọn một nhà toán học để tìm hiểu:</p>
+            <div style="margin: 20px 0;">
+                <select id="mathematician-select" style="width: 100%; padding: 10px; margin-bottom: 15px;">
+                    <option value="pythagoras">Pythagoras</option>
+                    <option value="euclid">Euclid</option>
+                    <option value="archimedes">Archimedes</option>
+                    <option value="newton">Isaac Newton</option>
+                    <option value="leibniz">Gottfried Leibniz</option>
+                    <option value="gauss">Carl Friedrich Gauss</option>
+                    <option value="euler">Leonhard Euler</option>
+                </select>
+                <button class="send-button" onclick="showMathematicianInfo()">Tìm hiểu</button>
+            </div>
+            <div id="mathematician-info" style="display: none;">
+                <h4>Thông tin nhà toán học:</h4>
+                <p>Chức năng này đang được phát triển. Trong tương lai, bạn sẽ thấy tiểu sử chi tiết và các đóng góp toán học của nhà toán học được chọn.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Games -->
+    <div id="games-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Trò chơi toán học</h3>
+                <button class="close-modal" onclick="closeModal('games-modal')">×</button>
+            </div>
+            <p>Chọn một trò chơi toán học:</p>
+            <div style="margin: 20px 0;">
+                <select id="game-select" style="width: 100%; padding: 10px; margin-bottom: 15px;">
+                    <option value="puzzle">Đố vui toán học</option>
+                    <option value="calculation">Rèn luyện tính nhẩm</option>
+                    <option value="geometry">Nhận diện hình học</option>
+                    <option value="logic">Câu đố logic</option>
+                </select>
+                <button class="send-button" onclick="startGame()">Bắt đầu</button>
+            </div>
+            <div id="game-area" style="display: none;">
+                <h4>Khu vực trò chơi:</h4>
+                <p>Chức năng trò chơi đang được phát triển. Trong tương lai, bạn sẽ có thể chơi các trò chơi toán học tương tác tại đây.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Quiz -->
+    <div id="quiz-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Bài kiểm tra trắc nghiệm</h3>
+                <button class="close-modal" onclick="closeModal('quiz-modal')">×</button>
+            </div>
+            <p>Chọn chủ đề và độ khó cho bài kiểm tra:</p>
+            <div style="margin: 20px 0;">
+                <select id="quiz-topic" style="width: 100%; padding: 10px; margin-bottom: 15px;">
+                    <option value="algebra">Đại số</option>
+                    <option value="geometry">Hình học</option>
+                    <option value="calculus">Giải tích</option>
+                    <option value="statistics">Thống kê</option>
+                </select>
+                <select id="quiz-difficulty" style="width: 100%; padding: 10px; margin-bottom: 15px;">
+                    <option value="easy">Dễ</option>
+                    <option value="medium">Trung bình</option>
+                    <option value="hard">Khó</option>
+                </select>
+                <button class="send-button" onclick="startQuiz()">Bắt đầu làm bài</button>
+            </div>
+            <div id="quiz-area" style="display: none;">
+                <h4>Bài kiểm tra:</h4>
+                <p>Chức năng kiểm tra trắc nghiệm đang được phát triển. Trong tương lai, bạn sẽ có thể làm bài kiểm tra với hệ thống chấm điểm tự động.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Resources -->
+    <div id="resources-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Tài liệu toán học</h3>
+                <button class="close-modal" onclick="closeModal('resources-modal')">×</button>
+            </div>
+            <p>Tìm kiếm tài liệu toán học theo chủ đề:</p>
+            <div style="margin: 20px 0;">
+                <input type="text" id="resource-search" placeholder="Nhập từ khóa tìm kiếm..." style="width: 100%; padding: 10px; margin-bottom: 15px;">
+                <button class="send-button" onclick="searchResources()">Tìm kiếm</button>
+            </div>
+            <div id="resource-results" style="display: none;">
+                <h4>Kết quả tìm kiếm:</h4>
+                <p>Chức năng tìm kiếm tài liệu đang được phát triển. Trong tương lai, bạn sẽ có thể tìm và tải về các tài liệu toán học phong phú.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modals = document.getElementsByClassName('modal');
+            for (let modal of modals) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            }
+        }
+        
+        // Chatbot functionality
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            
+            if (message === '') return;
+            
+            const chatMessages = document.getElementById('chat-messages');
+            
+            // Add user message
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message user-message';
+            userMessage.textContent = message;
+            chatMessages.appendChild(userMessage);
+            
+            // Clear input
+            input.value = '';
+            
+            // Simulate AI response
+            setTimeout(() => {
+                const aiMessage = document.createElement('div');
+                aiMessage.className = 'message ai-message';
+                
+                // Simple response based on keywords
+                if (message.toLowerCase().includes('phương trình') || message.includes('=')) {
+                    aiMessage.innerHTML = 'Để giải phương trình, bạn cần xác định loại phương trình (bậc nhất, bậc hai, hệ phương trình...) và áp dụng phương pháp giải phù hợp. Ví dụ: phương trình bậc hai \(ax^2 + bx + c = 0\) có nghiệm là \(x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}\).';
+                } else if (message.toLowerCase().includes('hình học') || message.includes('tam giác') || message.includes('hình tròn')) {
+                    aiMessage.innerHTML = 'Hình học nghiên cứu các tính chất của hình dạng và không gian. Ví dụ: diện tích hình tròn là \(S = \pi r^2\), chu vi là \(C = 2\pi r\).';
+                } else if (message.toLowerCase().includes('đạo hàm') || message.includes('tích phân')) {
+                    aiMessage.innerHTML = 'Giải tích nghiên cứu sự thay đổi. Đạo hàm đo tốc độ thay đổi, tích phân đo tổng tích lũy. Ví dụ: đạo hàm của \(x^2\) là \(2x\), tích phân của \(2x\) là \(x^2 + C\).';
+                } else {
+                    aiMessage.textContent = 'Tôi hiểu câu hỏi của bạn về toán học. Hiện tại tôi đang học hỏi thêm để có thể trả lời chính xác hơn. Bạn có thể thử hỏi về phương trình, hình học, hoặc giải tích.';
+                }
+                
+                chatMessages.appendChild(aiMessage);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Re-render MathJax
+                if (window.MathJax) {
+                    MathJax.typesetPromise([aiMessage]);
+                }
+            }, 1000);
+            
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Allow sending message with Enter key
+        document.getElementById('chat-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+        
+        // Other modal functions (simplified for demo)
+        function analyzeDocument() {
+            document.getElementById('error-analysis-result').style.display = 'block';
+        }
+        
+        function showMathematicianInfo() {
+            document.getElementById('mathematician-info').style.display = 'block';
+        }
+        
+        function startGame() {
+            document.getElementById('game-area').style.display = 'block';
+        }
+        
+        function startQuiz() {
+            document.getElementById('quiz-area').style.display = 'block';
+        }
+        
+        function searchResources() {
+            document.getElementById('resource-results').style.display = 'block';
+        }
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
