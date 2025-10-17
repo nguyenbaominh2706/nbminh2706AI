@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Thi Toán</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #2575fc;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            margin: 20px 0 15px;
+            color: #6a11cb;
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        .intro {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+        
+        .menu {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .grade-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            flex: 1;
+            min-width: 300px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .grade-section:hover {
+            transform: translateY(-5px);
+        }
+        
+        .exam-list {
+            list-style-type: none;
+        }
+        
+        .exam-list li {
+            margin-bottom: 10px;
+            padding: 12px 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .exam-list li:hover {
+            background-color: #e9ecef;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .exam-container {
+            display: none;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .timer {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #e74c3c;
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .question-section {
+            margin-bottom: 30px;
+        }
+        
+        .question {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .question-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        input[type="radio"], input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .short-answer {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+        
+        .result-container {
+            display: none;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .score {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #2575fc;
+            margin: 20px 0;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 30px;
+            color: #777;
+            border-top: 1px solid #eee;
+        }
+        
+        .exam-content {
+            border: 2px solid #e74c3c;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            background-color: #fff9f9;
+        }
+        
+        .exam-title {
+            color: #e74c3c;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .exam-frame {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        
+        .exam-instructions {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Web Thi Toán</h1>
+            <p>Nền tảng ôn luyện và kiểm tra kiến thức Toán học</p>
+        </header>
+        
+        <section class="intro">
+            <h2>Giới thiệu</h2>
+            <p>Chào mừng bạn đến với Web Thi Toán - nền tảng hỗ trợ học tập và ôn luyện môn Toán dành cho học sinh từ lớp 10 đến lớp 12.</p>
+            <p>Web cung cấp các đề thi theo chương trình học, giúp học sinh củng cố kiến thức và chuẩn bị tốt cho các kỳ thi quan trọng.</p>
+            <p>Với giao diện thân thiện, dễ sử dụng và hệ thống chấm điểm tự động, Web Thi Toán là công cụ hữu ích cho việc tự học và đánh giá năng lực.</p>
+        </section>
+        
+        <section class="menu">
+            <div class="grade-section">
+                <h2>Toán 10</h2>
+                <ul class="exam-list">
+                    <li onclick="selectExam('toan10-gk1')">Đề thi giữa kỳ 1</li>
+                    <li onclick="selectExam('toan10-ck1')">Đề thi cuối kỳ 1</li>
+                    <li onclick="selectExam('toan10-gk2')">Đề thi giữa kỳ 2</li>
+                    <li onclick="selectExam('toan10-ck2')">Đề thi cuối kỳ 2</li>
+                </ul>
+            </div>
+            
+            <div class="grade-section">
+                <h2>Toán 11</h2>
+                <ul class="exam-list">
+                    <li onclick="selectExam('toan11-gk1')">Đề thi giữa kỳ 1</li>
+                    <li onclick="selectExam('toan11-ck1')">Đề thi cuối kỳ 1</li>
+                    <li onclick="selectExam('toan11-gk2')">Đề thi giữa kỳ 2</li>
+                    <li onclick="selectExam('toan11-ck2')">Đề thi cuối kỳ 2</li>
+                </ul>
+            </div>
+            
+            <div class="grade-section">
+                <h2>Toán 12</h2>
+                <ul class="exam-list">
+                    <li onclick="selectExam('toan12-gk1')">Đề thi giữa kỳ 1</li>
+                    <li onclick="selectExam('toan12-ck1')">Đề thi cuối kỳ 1</li>
+                    <li onclick="selectExam('toan12-gk2')">Đề thi giữa kỳ 2</li>
+                    <li onclick="selectExam('toan12-ck2')">Đề thi cuối kỳ 2</li>
+                </ul>
+            </div>
+        </section>
+        
+        <div id="exam-selection" style="text-align: center; margin-bottom: 30px; display: none;">
+            <p>Bạn đã chọn: <span id="selected-exam-name"></span></p>
+            <button class="btn" onclick="startExam()">Bắt đầu thi</button>
+        </div>
+        
+        <div id="exam-container" class="exam-container">
+            <div class="timer" id="timer">60:00</div>
+            
+            <div class="exam-content">
+                <div class="exam-title" id="exam-title">ĐỀ THI MÔN TOÁN</div>
+                <div id="exam-description">
+                    <!-- Nội dung đề thi sẽ được hiển thị ở đây -->
+                </div>
+            </div>
+            
+            <div class="question-section">
+                <h3>A. Trắc nghiệm nhiều lựa chọn</h3>
+                <div id="multiple-choice-questions">
+                    <!-- Câu hỏi trắc nghiệm sẽ được thêm ở đây -->
+                </div>
+            </div>
+            
+            <div class="question-section">
+                <h3>B. Trắc nghiệm đúng/sai</h3>
+                <div id="true-false-questions">
+                    <!-- Câu hỏi đúng/sai sẽ được thêm ở đây -->
+                </div>
+            </div>
+            
+            <div class="question-section">
+                <h3>C. Trả lời ngắn</h3>
+                <div id="short-answer-questions">
+                    <!-- Câu hỏi trả lời ngắn sẽ được thêm ở đây -->
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn" onclick="submitExam()">Nộp bài</button>
+            </div>
+        </div>
+        
+        <div id="result-container" class="result-container">
+            <h2>Kết quả bài thi</h2>
+            <div class="score" id="score">0/100</div>
+            <p id="result-details"></p>
+            <button class="btn btn-secondary" onclick="goHome()">Quay lại trang chủ</button>
+        </div>
+        
+        <footer>
+            <p>Web Thi Toán &copy; </p>
+        </footer>
+    </div>
+
+    <script>
+        let selectedExam = '';
+        let timerInterval;
+        let timeLeft = 60 * 60; // 60 phút tính bằng giây
+        
+        // Hàm chọn đề thi
+        function selectExam(examId) {
+            selectedExam = examId;
+            document.getElementById('selected-exam-name').textContent = getExamName(examId);
+            document.getElementById('exam-selection').style.display = 'block';
+            
+            // Cuộn đến phần chọn đề thi
+            document.getElementById('exam-selection').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Hàm lấy tên đề thi
+        function getExamName(examId) {
+            const examNames = {
+                'toan10-gk1': 'Toán 10 - Đề thi giữa kỳ 1',
+                'toan10-ck1': 'Toán 10 - Đề thi cuối kỳ 1',
+                'toan10-gk2': 'Toán 10 - Đề thi giữa kỳ 2',
+                'toan10-ck2': 'Toán 10 - Đề thi cuối kỳ 2',
+                'toan11-gk1': 'Toán 11 - Đề thi giữa kỳ 1',
+                'toan11-ck1': 'Toán 11 - Đề thi cuối kỳ 1',
+                'toan11-gk2': 'Toán 11 - Đề thi giữa kỳ 2',
+                'toan11-ck2': 'Toán 11 - Đề thi cuối kỳ 2',
+                'toan12-gk1': 'Toán 12 - Đề thi giữa kỳ 1',
+                'toan12-ck1': 'Toán 12 - Đề thi cuối kỳ 1',
+                'toan12-gk2': 'Toán 12 - Đề thi giữa kỳ 2',
+                'toan12-ck2': 'Toán 12 - Đề thi cuối kỳ 2'
+            };
+            
+            return examNames[examId] || 'Đề thi';
+        }
+        
+        // Hàm bắt đầu làm bài thi
+        function startExam() {
+            document.getElementById('exam-selection').style.display = 'none';
+            document.getElementById('exam-container').style.display = 'block';
+            
+            // Hiển thị đề thi
+            document.getElementById('exam-title').textContent = getExamName(selectedExam);
+            document.getElementById('exam-description').innerHTML = generateExamContent(selectedExam);
+            
+            // Khởi tạo câu hỏi mẫu
+            generateSampleQuestions();
+            
+            // Bắt đầu đếm ngược
+            startTimer();
+            
+            // Cuộn đến phần làm bài
+            document.getElementById('exam-container').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Hàm tạo nội dung đề thi
+        function generateExamContent(examId) {
+            // Nếu là đề thi giữa kỳ 1 Toán 10, hiển thị đề từ Google Drive
+            if (examId === 'toan10-gk1') {
+                return `
+                    <div class="exam-instructions">
+                        <p><strong>Thời gian làm bài: 60 phút</strong></p>
+                        <p><strong>Hình thức thi: Trắc nghiệm kết hợp tự luận</strong></p>
+                        <p><strong>Hướng dẫn chung:</strong></p>
+                        <ul>
+                            <li>Phần A: Trắc nghiệm nhiều lựa chọn (25 câu)</li>
+                            <li>Phần B: Trắc nghiệm đúng/sai (4 câu)</li>
+                            <li>Phần C: Trả lời ngắn (10 câu)</li>
+                            <li>Thí sinh không được sử dụng tài liệu</li>
+                            <li>Điền đáp án vào đúng vị trí quy định</li>
+                        </ul>
+                    </div>
+                    <p><strong>Đề thi:</strong></p>
+                    <iframe src="https://drive.google.com/file/d/1XsIz-nR-HOgDzHyvdRCETVgVoxQjEY6O/preview" 
+                            class="exam-frame" 
+                            allow="autoplay">
+                    </iframe>
+                `;
+            }
+            
+            // Đối với các đề thi khác, hiển thị nội dung mẫu
+            return `
+                <p><strong>Thời gian làm bài: 60 phút</strong></p>
+                <p><strong>Hình thức thi: Trắc nghiệm kết hợp tự luận</strong></p>
+                <p><strong>Hướng dẫn chung:</strong></p>
+                <ul>
+                    <li>Phần A: Trắc nghiệm nhiều lựa chọn (25 câu)</li>
+                    <li>Phần B: Trắc nghiệm đúng/sai (4 câu)</li>
+                    <li>Phần C: Trả lời ngắn (10 câu)</li>
+                    <li>Thí sinh không được sử dụng tài liệu</li>
+                    <li>Điền đáp án vào đúng vị trí quy định</li>
+                </ul>
+                <p><em>Đề thi sẽ được hiển thị tại đây khi bạn bắt đầu làm bài.</em></p>
+            `;
+        }
+        
+        // Hàm tạo câu hỏi mẫu
+        function generateSampleQuestions() {
+            const multipleChoiceContainer = document.getElementById('multiple-choice-questions');
+            const trueFalseContainer = document.getElementById('true-false-questions');
+            const shortAnswerContainer = document.getElementById('short-answer-questions');
+            
+            // Xóa nội dung cũ
+            multipleChoiceContainer.innerHTML = '';
+            trueFalseContainer.innerHTML = '';
+            shortAnswerContainer.innerHTML = '';
+            
+            // Tạo 25 câu hỏi trắc nghiệm nhiều lựa chọn
+            for (let i = 1; i <= 25; i++) {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                
+                questionDiv.innerHTML = `
+                    <div class="question-title">Câu ${i}: Đây là câu hỏi mẫu số ${i}?</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q${i}_a" name="q${i}" value="A">
+                            <label for="q${i}_a">A. Đáp án A</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q${i}_b" name="q${i}" value="B">
+                            <label for="q${i}_b">B. Đáp án B</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q${i}_c" name="q${i}" value="C">
+                            <label for="q${i}_c">C. Đáp án C</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q${i}_d" name="q${i}" value="D">
+                            <label for="q${i}_d">D. Đáp án D</label>
+                        </div>
+                    </div>
+                `;
+                
+                multipleChoiceContainer.appendChild(questionDiv);
+            }
+            
+            // Tạo 4 câu hỏi trắc nghiệm đúng/sai
+            for (let i = 1; i <= 4; i++) {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                
+                questionDiv.innerHTML = `
+                    <div class="question-title">Câu ${i}: Phát biểu này đúng hay sai?</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="tf${i}_true" name="tf${i}" value="true">
+                            <label for="tf${i}_true">a) Đúng</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="tf${i}_false" name="tf${i}" value="false">
+                            <label for="tf${i}_false">a) Sai</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="tf${i}_true" name="tf${i}" value="true">
+                            <label for="tf${i}_true">b) Đúng</label>
+                        </div>
+                         <div class="option">
+                            <input type="radio" id="tf${i}_false" name="tf${i}" value="false">
+                            <label for="tf${i}_false">b) Sai</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="tf${i}_true" name="tf${i}" value="true">
+                            <label for="tf${i}_true">c) Đúng</label>
+                        </div>
+                         <div class="option">
+                            <input type="radio" id="tf${i}_false" name="tf${i}" value="false">
+                            <label for="tf${i}_false">c) Sai</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="tf${i}_true" name="tf${i}" value="true">
+                            <label for="tf${i}_true">d) Đúng</label>
+                        </div>
+                         <div class="option">
+                            <input type="radio" id="tf${i}_false" name="tf${i}" value="false">
+                            <label for="tf${i}_false">d) Sai</label>
+                        </div>
+                    </div>
+                `;
+                
+                trueFalseContainer.appendChild(questionDiv);
+            }
+            
+            // Tạo 10 câu hỏi trả lời ngắn
+            for (let i = 1; i <= 10; i++) {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                
+                questionDiv.innerHTML = `
+                    <div class="question-title">Câu ${i}: Hãy nhập đáp án cho câu hỏi này:</div>
+                    <input type="text" class="short-answer" id="sa${i}" placeholder="Nhập đáp án...">
+                `;
+                
+                shortAnswerContainer.appendChild(questionDiv);
+            }
+        }
+        
+        // Hàm bắt đầu đếm ngược
+        function startTimer() {
+            updateTimerDisplay();
+            
+            timerInterval = setInterval(function() {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    submitExam();
+                }
+            }, 1000);
+        }
+        
+        // Hàm cập nhật hiển thị thời gian
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        // Hàm nộp bài
+        function submitExam() {
+            clearInterval(timerInterval);
+            
+            // Ẩn phần làm bài, hiển thị kết quả
+            document.getElementById('exam-container').style.display = 'none';
+            document.getElementById('result-container').style.display = 'block';
+            
+            // Tính điểm (trong thực tế, bạn sẽ so sánh với đáp án thực)
+            const score = calculateScore();
+            document.getElementById('score').textContent = `${score}/100`;
+            document.getElementById('result-details').textContent = 
+                `Bạn đã hoàn thành bài thi ${getExamName(selectedExam)} với số điểm ${score}/100.`;
+            
+            // Cuộn đến phần kết quả
+            document.getElementById('result-container').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Hàm tính điểm (mẫu)
+        function calculateScore() {
+            // Trong thực tế, bạn sẽ so sánh câu trả lời với đáp án
+            // Ở đây chúng ta chỉ trả về điểm ngẫu nhiên để minh họa
+            return Math.floor(Math.random() * 41) + 60; // Điểm từ 60-100
+        }
+        
+        // Hàm quay lại trang chủ
+        function goHome() {
+            // Reset thời gian
+            timeLeft = 60 * 60;
+            
+            // Ẩn tất cả các phần, chỉ hiển thị menu chính
+            document.getElementById('exam-selection').style.display = 'none';
+            document.getElementById('exam-container').style.display = 'none';
+            document.getElementById('result-container').style.display = 'none';
+            
+            // Cuộn lên đầu trang
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
