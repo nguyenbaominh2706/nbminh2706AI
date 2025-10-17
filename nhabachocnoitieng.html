@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm Kiếm Nhà Toán Học</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
+          crossorigin=""/>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #2c3e50, #4a6491);
+            color: white;
+            padding: 25px 0;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo i {
+            font-size: 2.2rem;
+            color: #3498db;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Navigation Panel */
+        .nav-panel {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .nav-section {
+            margin-bottom: 25px;
+        }
+        
+        .nav-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .nav-section h2 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+        
+        .nav-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #2c3e50;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            background-color: #e9ecef;
+            transform: translateY(-2px);
+        }
+        
+        .nav-link i {
+            color: #3498db;
+            font-size: 1.1rem;
+        }
+        
+        /* Search Section */
+        .search-section {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .search-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .search-title i {
+            color: #3498db;
+            font-size: 1.5rem;
+        }
+        
+        .search-title h2 {
+            font-size: 1.4rem;
+            color: #2c3e50;
+        }
+        
+        .search-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .search-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .century-select {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: white;
+            min-width: 150px;
+        }
+        
+        .search-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .search-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        /* Connection Search Section */
+        .connection-search {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 25px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .connection-search h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            font-size: 1.2rem;
+        }
+        
+        .connection-search h3 i {
+            color: #e74c3c;
+        }
+        
+        .connection-controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .connection-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .connection-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .connection-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        /* Map Section */
+        .map-section {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+        }
+        
+        .map-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .map-title i {
+            color: #e74c3c;
+            font-size: 1.5rem;
+        }
+        
+        .map-title h2 {
+            font-size: 1.4rem;
+            color: #2c3e50;
+        }
+        
+        .map-container {
+            height: 400px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        /* Search Results */
+        .search-results {
+            margin-top: 20px;
+        }
+        
+        .author-card {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .author-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .author-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .author-info h3 {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .author-info .country {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .author-bio {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .author-works h4 {
+            font-size: 1rem;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .works-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .work-tag {
+            background-color: #3498db;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 30px;
+            color: #7f8c8d;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+            margin-top: 30px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .nav-links {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-controls, .connection-controls {
+                flex-direction: column;
+            }
+            
+            .search-input, .century-select, .search-btn, 
+            .connection-input, .connection-btn {
+                width: 100%;
+            }
+            
+            .author-header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-calculator"></i>
+                    <h1>Tìm Kiếm Nhà Toán Học</h1>
+                </div>
+                <div class="user-actions">
+                    </button>
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <div class="nav-panel">
+            <div class="nav-section">
+                <h2>Tính năng bản đồ</h2>
+                <div class="nav-links">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-location-arrow"></i>
+                        <span>Tìm hiểu vị trí nhà toán học</span>
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Chế độ tìm hiểu mối quan hệ nhà toán học</span>
+                    </a>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="search-section">
+            <div class="search-title">
+                <i class="fas fa-search"></i>
+                <h2>Tìm kiếm nhà toán học</h2>
+            </div>
+            <div class="search-controls">
+                <input type="text" class="search-input" id="authorSearch" placeholder="Nhập tên nhà toán học...">
+                <select class="century-select" id="centurySelect">
+                    <option value="all">Tất cả thế kỷ</option>
+                    <option value="TCN">TCN</option>
+                    <option value="1">Thế kỷ 1</option>
+                    <option value="2">Thế kỷ 2</option>
+                    <option value="3">Thế kỷ 3</option>
+                    <option value="4">Thế kỷ 4</option>
+                    <option value="5">Thế kỷ 5</option>
+                    <option value="6">Thế kỷ 6</option>
+                    <option value="7">Thế kỷ 7</option>
+                    <option value="8">Thế kỷ 8</option>
+                    <option value="9">Thế kỷ 9</option>
+                    <option value="10">Thế kỷ 10</option>
+                    <option value="11">Thế kỷ 11</option>
+                    <option value="12">Thế kỷ 12</option>
+                    <option value="13">Thế kỷ 13</option>
+                    <option value="14">Thế kỷ 14</option>
+                    <option value="15">Thế kỷ 15</option>
+                    <option value="16">Thế kỷ 16</option>
+                    <option value="17">Thế kỷ 17</option>
+                    <option value="18">Thế kỷ 18</option>
+                    <option value="19">Thế kỷ 19</option>
+                    <option value="20">Thế kỷ 20</option>
+                    <option value="21">Thế kỷ 21</option>
+                </select>
+                <button class="search-btn" id="searchButton">
+                    <i class="fas fa-search"></i> Tìm kiếm
+                </button>
+            </div>
+            
+            <!-- Khung tìm kiếm mối liên hệ mới -->
+            <div class="connection-search">
+                <h3>
+                    <i class="fas fa-project-diagram"></i>
+                    Tìm mối liên hệ giữa các nhà toán học...
+                </h3>
+                <div class="connection-controls">
+                    <input type="text" class="connection-input" placeholder="Nhập tên nhà toán học thứ nhất...">
+                    <input type="text" class="connection-input" placeholder="Nhập tên nhà toán học thứ hai...">
+                    <button class="connection-btn">
+                        <i class="fas fa-link"></i> Tìm liên hệ
+                    </button>
+                </div>
+            </div>
+            
+            <div class="search-results" id="searchResults">
+                <!-- Kết quả tìm kiếm sẽ hiển thị ở đây -->
+            </div>
+        </div>
+        
+        <div class="map-section">
+            <div class="map-title">
+                <i class="fas fa-map-marked-alt"></i>
+                <h2>Quần đảo Hoàng Sa</h2>
+            </div>
+            <div id="map" class="map-container"></div>
+        </div>
+        
+        <footer>
+            <p></p>
+        </footer>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" 
+            crossorigin=""></script>
+    <script>
+        // Khởi tạo bản đồ
+        var map = L.map('map').setView([16.6667, 112.7333], 8); // Tập trung vào khu vực Hoàng Sa
+
+        // Thêm lớp bản đồ từ MapTiler
+        L.tileLayer('https://api.maptiler.com/maps/streets-v2/256/{z}/{x}/{y}.png?key=ntgWl4WBBe4BoXakq2Na', {
+            attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> | ' +
+                       '<a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
+        }).addTo(map);
+
+        // Thêm marker cho Quần đảo Hoàng Sa
+        var hoangSaMarker = L.marker([16.6667, 112.7333]).addTo(map);
+        hoangSaMarker.bindPopup("<b>Quần đảo Hoàng Sa</b><br>Lãnh thổ Việt Nam").openPopup();
+
+        // Dữ liệu nhà toán học và cấu hình
+        const GEMINI_CONFIG = {
+            apiKey: 'AIzaSyAn9dMMM5u8dEGpI8mEzQvdMSuI8KFH8jM',
+            model: 'gemini-2.5-flash-preview-05-20'
+        };
+
+        const countryNameMap = {
+            "Việt Nam": "Vietnam",
+            "Anh": "United Kingdom",
+            "Mỹ": "United States",
+            "Hoa Kỳ": "United States",
+            "Pháp": "France",
+            "Đức": "Germany",
+            "Nga": "Russia",
+            "Nhật Bản": "Japan",
+            "Trung Quốc": "China",
+            "Trung Hoa": "China",
+            "Hàn Quốc": "South Korea",
+            "Ấn Độ": "India",
+            "Brazil": "Brazil",
+            "Canada": "Canada",
+            "Ý": "Italy",
+            "Tây Ban Nha": "Spain",
+            "Bồ Đào Nha": "Portugal",
+            "Thụy Điển": "Sweden",
+            "Na Uy": "Norway",
+            "Phần Lan": "Finland",
+            "Đan Mạch": "Denmark",
+            "Hà Lan": "Netherlands",
+            "Bỉ": "Belgium",
+            "Thụy Sĩ": "Switzerland",
+            "Áo": "Austria",
+            "Ba Lan": "Poland",
+            "Hy Lạp": "Greece",
+            "Thổ Nhĩ Kỳ": "Turkey",
+            "Ai Cập": "Egypt",
+            "Nam Phi": "South Africa",
+            "Mexico": "Mexico",
+            "Argentina": "Argentina",
+            "Úc": "Australia",
+            "New Zealand": "New Zealand"
+        };
+
+        const authors = [
+            {
+                "id": 1,
+                "name": "Isaac Newton",
+                "bio": "Isaac Newton (1643–1727) là nhà toán học, nhà vật lý, nhà thiên văn học, nhà thần học và tác giả người Anh. Ông được công nhận là một trong những nhà toán học vĩ đại nhất mọi thời đại.",
+                "works": [
+                    "Định luật vạn vật hấp dẫn",
+                    "Phép tính vi phân và tích phân",
+                    "Ba định luật chuyển động"
+                ],
+                "birthPlace": {
+                    "lat": 52.192001,
+                    "lng": -1.707344
+                },
+                "century": 17,
+                "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/GodfreyKneller-IsaacNewton-1689.jpg/220px-GodfreyKneller-IsaacNewton-1689.jpg",
+                "country": "United Kingdom",
+                "connections": []
+            },
+            {
+                "id": 2,
+                "name": "Albert Einstein",
+                "bio": "Albert Einstein (1879–1955) là nhà vật lý lý thuyết người Đức, được công nhận là một trong những nhà toán học và vật lý học vĩ đại nhất mọi thời đại. Ông nổi tiếng với thuyết tương đối.",
+                "works": [
+                    "Thuyết tương đối hẹp",
+                    "Thuyết tương đối rộng",
+                    "Phương trình E=mc²"
+                ],
+                "birthPlace": {
+                    "lat": 48.8566,
+                    "lng": 2.3522
+                },
+                "century": 20,
+                "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg",
+                "country": "Germany",
+                "connections": []
+            },
+            {
+                "id": 3,
+                "name": "Pythagoras",
+                "bio": "Pythagoras (k. 570 – k. 495 TCN) là nhà toán học, triết học người Hy Lạp cổ đại. Ông nổi tiếng với định lý Pythagoras trong hình học.",
+                "works": [
+                    "Định lý Pythagoras",
+                    "Lý thuyết số học",
+                    "Hình học tam giác"
+                ],
+                "birthPlace": {
+                    "lat": 37.9838,
+                    "lng": 23.7275
+                },
+                "century": 1,
+                "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Pythagoras_in_Thomas_Stanley_History_of_Philosophy.jpg/250px-Pythagoras_in_Thomas_Stanley_History_of_Philosophy.jpg",
+                "country": "Greece",
+                "connections": []
+            },
+            {
+             "id": 4,
+                "name": "Jacob Bernoulli",
+                "bio": "Jacob Bernoulli (còn được biết đến với tên James hoặc Jacques) (27 tháng 12 năm 1654 – 16 tháng 8 năm 1705) là nhà Toán học người Thụy Sĩ. Cống hiến chủ yếu của ông là vào Hình học giải tích, Lý thuyết xác suất, Phép tính biến phân. Bất đẳng thức Bernoulli thường được dạy trong trường phổ thông mang tên này để vinh danh ông.",
+                "works": [
+                    "Hình học giải tích, Lý thuyết xác suất",
+                    "Phép tính biến phân",
+                    "Bất đẳng thức Bernoulli"
+                   
+                ],
+                "birthPlace": {
+                    "lat": 52.192001,
+                    "lng": -1.707344
+                },
+                "century": 17,
+                "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Jakob_Bernoulli.jpg/250px-Jakob_Bernoulli.jpg",
+                "country": "Switzerland",
+                "connections": []   
+            }, 
+            {
+             "id": 5,
+                "name": "Johann Bernoulli",
+                "bio": "Johann Bernoulli (27 tháng 7 năm 1667 – 1 tháng 1 năm 1748)(còn được biết đến với tên Jean hay John) là nhà toán học người Thụy Sĩ, con trai thứ 10 của Nicolaus và Margaretha Bernoulli, và là em trai của Jacob Bernoulli cũng là một nhà toán học có tiếng.",
+                "works": [
+                    "Tích phân",
+                    "Vi phân"
+                   
+                ],
+                "birthPlace": {
+                    "lat": 52.192001,
+                    "lng": -1.707344
+                },
+                "century": 17,
+                "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Johann_Bernoulli.jpg/250px-Johann_Bernoulli.jpg",
+                "country": "Switzerland",
+                "connections": [] 
+            },    
+        ];
+
+        // Hàm tìm kiếm nhà toán học
+        function searchAuthors() {
+            const searchTerm = document.getElementById('authorSearch').value.toLowerCase();
+            const centuryFilter = document.getElementById('centurySelect').value;
+            const resultsContainer = document.getElementById('searchResults');
+            
+            // Xóa kết quả cũ
+            resultsContainer.innerHTML = '';
+            
+            // Lọc tác giả theo từ khóa và thế kỷ
+            const filteredAuthors = authors.filter(author => {
+                const matchesName = author.name.toLowerCase().includes(searchTerm);
+                const matchesWorks = author.works.some(work => 
+                    work.toLowerCase().includes(searchTerm)
+                );
+                const matchesCentury = centuryFilter === 'all' || 
+                    author.century.toString() === centuryFilter;
+                
+                return (matchesName || matchesWorks) && matchesCentury;
+            });
+            
+            // Hiển thị kết quả
+            if (filteredAuthors.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search fa-2x" style="margin-bottom: 15px;"></i>
+                        <p>Không tìm thấy kết quả phù hợp với từ khóa "${searchTerm}"</p>
+                    </div>
+                `;
+            } else {
+                filteredAuthors.forEach(author => {
+                    const authorCard = document.createElement('div');
+                    authorCard.className = 'author-card';
+                    
+                    authorCard.innerHTML = `
+                        <div class="author-header">
+                            <img src="${author.image}" alt="${author.name}" class="author-image">
+                            <div class="author-info">
+                                <h3>${author.name}</h3>
+                                <div class="country">${author.country} • Thế kỷ ${author.century}</div>
+                            </div>
+                        </div>
+                        <div class="author-bio">${author.bio}</div>
+                        <div class="author-works">
+                            <h4>Phát hiện tiêu biểu:</h4>
+                            <div class="works-list">
+                                ${author.works.map(work => 
+                                    `<span class="work-tag">${work}</span>`
+                                ).join('')}
+                            </div>
+                        </div>
+                    `;
+                    
+                    resultsContainer.appendChild(authorCard);
+                });
+            }
+        }
+
+        // Thêm sự kiện cho nút tìm kiếm
+        document.getElementById('searchButton').addEventListener('click', searchAuthors);
+        
+        // Thêm sự kiện cho phím Enter trong ô tìm kiếm
+        document.getElementById('authorSearch').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchAuthors();
+            }
+        });
+    </script>
+</body>
+</html>
