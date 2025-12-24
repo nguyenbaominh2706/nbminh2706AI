@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tìm Kiếm Nhà Toán Học</title>
+    <title>Tra Cứu Nhà Toán Học</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
-          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
-          crossorigin=""/>
     <style>
         * {
             margin: 0;
@@ -23,382 +22,317 @@
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
         }
         
-        /* Header Styles */
         header {
-            background: linear-gradient(135deg, #2c3e50, #4a6491);
-            color: white;
-            padding: 25px 0;
-            border-radius: 12px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e1e5eb;
         }
         
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 30px;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .logo i {
-            font-size: 2.2rem;
-            color: #3498db;
-        }
-        
-        .logo h1 {
-            font-size: 1.8rem;
-            font-weight: 600;
-        }
-        
-        .user-actions {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .btn {
-            padding: 10px 20px;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .btn-primary {
-            background-color: #3498db;
-            color: white;
-        }
-        
-        .btn-outline {
-            background-color: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            color: white;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* Navigation Panel */
-        .nav-panel {
-            background-color: white;
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        }
-        
-        .nav-section {
-            margin-bottom: 25px;
-        }
-        
-        .nav-section:last-child {
-            margin-bottom: 0;
-        }
-        
-        .nav-section h2 {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
+        h1 {
             color: #2c3e50;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 8px;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
         }
         
-        .nav-links {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 12px;
-        }
-        
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 15px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            text-decoration: none;
-            color: #2c3e50;
-            transition: all 0.3s ease;
-        }
-        
-        .nav-link:hover {
-            background-color: #e9ecef;
-            transform: translateY(-2px);
-        }
-        
-        .nav-link i {
-            color: #3498db;
+        .subtitle {
+            color: #7f8c8d;
             font-size: 1.1rem;
         }
         
-        /* Search Section */
         .search-section {
             background-color: white;
-            border-radius: 12px;
+            border-radius: 10px;
             padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
         }
         
-        .search-title {
+        .search-container {
             display: flex;
-            align-items: center;
             gap: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .search-title i {
-            color: #3498db;
-            font-size: 1.5rem;
-        }
-        
-        .search-title h2 {
-            font-size: 1.4rem;
-            color: #2c3e50;
-        }
-        
-        .search-controls {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
         }
         
         .search-input {
             flex: 1;
-            min-width: 250px;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
+            padding: 15px;
+            border: 2px solid #ddd;
             border-radius: 8px;
             font-size: 1rem;
+            transition: border-color 0.3s;
         }
         
-        .century-select {
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-            background-color: white;
-            min-width: 150px;
+        .search-input:focus {
+            border-color: #3498db;
+            outline: none;
         }
         
         .search-btn {
             background-color: #3498db;
             color: white;
             border: none;
-            padding: 12px 25px;
             border-radius: 8px;
+            padding: 0 30px;
             cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
+            font-size: 1rem;
+            transition: background-color 0.3s;
         }
         
         .search-btn:hover {
             background-color: #2980b9;
         }
         
-        /* Connection Search Section */
-        .connection-search {
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 25px;
-            border-left: 4px solid #3498db;
-        }
-        
-        .connection-search h3 {
+        .example-list {
+            margin-top: 15px;
             display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            color: #2c3e50;
-            font-size: 1.2rem;
-        }
-        
-        .connection-search h3 i {
-            color: #e74c3c;
-        }
-        
-        .connection-controls {
-            display: flex;
-            gap: 15px;
             flex-wrap: wrap;
+            gap: 10px;
         }
         
-        .connection-input {
-            flex: 1;
-            min-width: 250px;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-        }
-        
-        .connection-btn {
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
+        .example-tag {
+            background-color: #e8f4fc;
+            color: #3498db;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
             cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
+            transition: background-color 0.3s;
         }
         
-        .connection-btn:hover {
-            background-color: #c0392b;
+        .example-tag:hover {
+            background-color: #d1e8f7;
         }
         
-        /* Map Section */
-        .map-section {
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .info-section {
             background-color: white;
-            border-radius: 12px;
+            border-radius: 10px;
             padding: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            min-height: 300px;
         }
         
-        .map-title {
+        .info-section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
             display: flex;
             align-items: center;
             gap: 10px;
+        }
+        
+        .info-section h2 i {
+            color: #3498db;
+        }
+        
+        .mathematician-image {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 10px;
             margin-bottom: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
         
-        .map-title i {
-            color: #e74c3c;
-            font-size: 1.5rem;
+        .biography-text {
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 10px;
         }
         
-        .map-title h2 {
-            font-size: 1.4rem;
-            color: #2c3e50;
+        .discoveries-list {
+            list-style-type: none;
         }
         
-        .map-container {
-            height: 400px;
+        .discoveries-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .discoveries-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .discoveries-list li i {
+            color: #2ecc71;
+            margin-right: 8px;
+        }
+        
+        .map-section {
+            grid-column: span 2;
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        #map {
+            height: 500px;
             border-radius: 8px;
-            overflow: hidden;
+            margin-top: 10px;
+            border: 2px solid #e1e5eb;
         }
         
-        /* Search Results */
-        .search-results {
-            margin-top: 20px;
+        /* Cờ Việt Nam */
+        .vietnam-flag-icon {
+            display: inline-block;
+            width: 24px;
+            height: 16px;
+            background-color: #da251d; /* Màu đỏ cờ */
+            position: relative;
+            margin-right: 8px;
+            vertical-align: middle;
+            border: 1px solid #333;
         }
         
-        .author-card {
+        .vietnam-flag-icon::after {
+            content: "★";
+            color: #ff0;
+            font-size: 10px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .related-mathematicians {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .related-card {
             background-color: #f8f9fa;
             border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 15px;
+            padding: 15px;
+            width: calc(50% - 8px);
             border-left: 4px solid #3498db;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
         }
         
-        .author-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
+        .related-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
-        .author-image {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        
-        .author-info h3 {
-            font-size: 1.3rem;
+        .related-card h4 {
             color: #2c3e50;
             margin-bottom: 5px;
         }
         
-        .author-info .country {
+        .related-card p {
             color: #7f8c8d;
             font-size: 0.9rem;
         }
         
-        .author-bio {
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-        
-        .author-works h4 {
-            font-size: 1rem;
-            color: #2c3e50;
-            margin-bottom: 8px;
-        }
-        
-        .works-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        
-        .work-tag {
-            background-color: #3498db;
-            color: white;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-        }
-        
-        .no-results {
+        .loading {
             text-align: center;
-            padding: 30px;
+            padding: 20px;
             color: #7f8c8d;
         }
         
-        /* Footer */
+        .error {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .achievement-item {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border-left: 3px solid #3498db;
+        }
+        
+        .achievement-item i {
+            color: #2ecc71;
+            margin-right: 8px;
+        }
+        
+        .no-data {
+            color: #7f8c8d;
+            font-style: italic;
+            padding: 10px;
+            text-align: center;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+        
+        .vietnam-info {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #da251d;
+        }
+        
+        .vietnam-info h3 {
+            color: #da251d;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .vietnam-info h3 i {
+            margin-right: 8px;
+        }
+        
         footer {
             text-align: center;
-            padding: 20px 0;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e1e5eb;
             color: #7f8c8d;
             font-size: 0.9rem;
-            border-top: 1px solid #eee;
-            margin-top: 30px;
         }
         
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 20px;
-            }
-            
-            .nav-links {
+        @media (max-width: 1024px) {
+            .content {
                 grid-template-columns: 1fr;
             }
             
-            .search-controls, .connection-controls {
+            .map-section {
+                grid-column: span 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .search-container {
                 flex-direction: column;
             }
             
-            .search-input, .century-select, .search-btn, 
-            .connection-input, .connection-btn {
+            .search-btn {
+                padding: 15px;
+            }
+            
+            .related-card {
                 width: 100%;
             }
             
-            .author-header {
-                flex-direction: column;
-                text-align: center;
+            #map {
+                height: 400px;
             }
         }
     </style>
@@ -406,325 +340,1539 @@
 <body>
     <div class="container">
         <header>
-            <div class="header-content">
-                <div class="logo">
-                    <i class="fas fa-calculator"></i>
-                    <h1>Tìm Kiếm Nhà Toán Học</h1>
-                </div>
-                <div class="user-actions">
-                    </button>
-                    </button>
-                </div>
-            </div>
+            <h1><i class=""></i> Tra Cứu Nhà Toán Học</h1>
+            <p class="subtitle">Tìm kiếm thông tin về các nhà toán học nổi tiếng trên thế giới thông qua Website học tốt Toán học</p>
         </header>
         
-        <div class="nav-panel">
-            <div class="nav-section">
-                <h2>Tính năng bản đồ</h2>
-                <div class="nav-links">
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-location-arrow"></i>
-                        <span>Tìm hiểu vị trí nhà toán học</span>
-                    </a>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-info-circle"></i>
-                        <span>Chế độ tìm hiểu mối quan hệ nhà toán học</span>
-                    </a>
-                    </a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="search-section">
-            <div class="search-title">
-                <i class="fas fa-search"></i>
-                <h2>Tìm kiếm nhà toán học</h2>
-            </div>
-            <div class="search-controls">
-                <input type="text" class="search-input" id="authorSearch" placeholder="Nhập tên nhà toán học...">
-                <select class="century-select" id="centurySelect">
-                    <option value="all">Tất cả thế kỷ</option>
-                    <option value="TCN">TCN</option>
-                    <option value="1">Thế kỷ 1</option>
-                    <option value="2">Thế kỷ 2</option>
-                    <option value="3">Thế kỷ 3</option>
-                    <option value="4">Thế kỷ 4</option>
-                    <option value="5">Thế kỷ 5</option>
-                    <option value="6">Thế kỷ 6</option>
-                    <option value="7">Thế kỷ 7</option>
-                    <option value="8">Thế kỷ 8</option>
-                    <option value="9">Thế kỷ 9</option>
-                    <option value="10">Thế kỷ 10</option>
-                    <option value="11">Thế kỷ 11</option>
-                    <option value="12">Thế kỷ 12</option>
-                    <option value="13">Thế kỷ 13</option>
-                    <option value="14">Thế kỷ 14</option>
-                    <option value="15">Thế kỷ 15</option>
-                    <option value="16">Thế kỷ 16</option>
-                    <option value="17">Thế kỷ 17</option>
-                    <option value="18">Thế kỷ 18</option>
-                    <option value="19">Thế kỷ 19</option>
-                    <option value="20">Thế kỷ 20</option>
-                    <option value="21">Thế kỷ 21</option>
-                </select>
-                <button class="search-btn" id="searchButton">
+        <section class="search-section">
+            <div class="search-container">
+                <input type="text" class="search-input" id="searchInput" placeholder="Nhập tên nhà toán học cần tìm...">
+                <button class="search-btn" id="searchBtn">
                     <i class="fas fa-search"></i> Tìm kiếm
                 </button>
             </div>
+            <div class="example-list">
+                <span class="example-tag" data-name="Isaac Newton">Bảo Minh đẹp trai</span>
+                <span class="example-tag" data-name="Pythagoras">Minh hi hi</span>
+                <span class="example-tag" data-name="Albert Einstein">Minh 10A1</span>
+                <span class="example-tag" data-name="Leonhard Euler">Leonhard Euler</span>
+                <span class="example-tag" data-name="Alan Turing">Alan Turing</span>
+                <span class="example-tag" data-name="Carl Friedrich Gauss">Carl Friedrich Gauss</span>
+                <span class="example-tag" data-name="Ngô Bảo Châu">Ngô Bảo Châu</span>
+                <span class="example-tag" data-name="Hoàng Tụy">Hoàng Tụy</span>
+                <span class="example-tag" data-name="Lương Thế Vinh">Lương Thế Vinh</span>
+            </div>
+        </section>
+        
+        <div class="content">
+            <section class="info-section" id="imageSection">
+                <h2><i class="fas fa-portrait"></i> Hình ảnh</h2>
+                <div class="loading" id="imageLoading">Đang tải hình ảnh...</div>
+                <div id="imageContainer"></div>
+            </section>
             
-            <!-- Khung tìm kiếm mối liên hệ mới -->
-            <div class="connection-search">
-                <h3>
-                    <i class="fas fa-project-diagram"></i>
-                    Tìm mối liên hệ giữa các nhà toán học...
-                </h3>
-                <div class="connection-controls">
-                    <input type="text" class="connection-input" placeholder="Nhập tên nhà toán học thứ nhất...">
-                    <input type="text" class="connection-input" placeholder="Nhập tên nhà toán học thứ hai...">
-                    <button class="connection-btn">
-                        <i class="fas fa-link"></i> Tìm liên hệ
-                    </button>
+            <section class="info-section" id="bioSection">
+                <h2><i class="fas fa-book-open"></i> Tiểu sử</h2>
+                <div class="loading" id="bioLoading">Đang tải tiểu sử...</div>
+                <div class="biography-text" id="biography"></div>
+            </section>
+            
+            <section class="info-section" id="discoveriesSection">
+                <h2><i class="fas fa-lightbulb"></i> Công trình & Khám phá tiêu biểu</h2>
+                <div class="loading" id="discoveriesLoading">Đang tải thông tin...</div>
+                <div id="discoveries"></div>
+            </section>
+            
+            <section class="info-section" id="relatedSection">
+                <h2><i class="fas fa-users"></i> Nhà toán học liên quan</h2>
+                <div class="loading" id="relatedLoading">Đang tải thông tin liên quan...</div>
+                <div class="related-mathematicians" id="relatedMathematicians"></div>
+            </section>
+            
+            <section class="map-section" id="mapSection">
+                <h2><i class="fas fa-map-marked-alt"></i> Bản đồ toán học</h2>
+                <div class="vietnam-info">
+                    <h3><i class="fas fa-flag"></i> Website học tốt Toán học</h3>
+                    <p>Tìm hiểu muôn màng thú vị qua Tra cứu nhà Toán học</p>
                 </div>
-            </div>
-            
-            <div class="search-results" id="searchResults">
-                <!-- Kết quả tìm kiếm sẽ hiển thị ở đây -->
-            </div>
+                <div class="loading" id="mapLoading">Đang tải bản đồ...</div>
+                <div id="map"></div>
+            </section>
         </div>
-        
-        <div class="map-section">
-            <div class="map-title">
-                <i class="fas fa-map-marked-alt"></i>
-                <h2>Quần đảo Hoàng Sa</h2>
-            </div>
-            <div id="map" class="map-container"></div>
-        </div>
-        
-        <footer>
-            <p></p>
-        </footer>
     </div>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
-            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" 
-            crossorigin=""></script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
     <script>
-        // Khởi tạo bản đồ
-        var map = L.map('map').setView([16.6667, 112.7333], 8); // Tập trung vào khu vực Hoàng Sa
-
-        // Thêm lớp bản đồ từ MapTiler
-        L.tileLayer('https://api.maptiler.com/maps/streets-v2/256/{z}/{x}/{y}.png?key=ntgWl4WBBe4BoXakq2Na', {
-            attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> | ' +
-                       '<a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
-        }).addTo(map);
-
-        // Thêm marker cho Quần đảo Hoàng Sa
-        var hoangSaMarker = L.marker([16.6667, 112.7333]).addTo(map);
-        hoangSaMarker.bindPopup("<b>Quần đảo Hoàng Sa</b><br>Lãnh thổ Việt Nam").openPopup();
-
-        // Dữ liệu nhà toán học và cấu hình
-        const GEMINI_CONFIG = {
-            apiKey: 'AIzaSyAn9dMMM5u8dEGpI8mEzQvdMSuI8KFH8jM',
-            model: 'gemini-2.5-flash-preview-05-20'
+        // Khởi tạo các biến toàn cục
+        let map = null;
+        let marker = null;
+        let currentMathematician = '';
+        
+        // DOM Elements
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const exampleTags = document.querySelectorAll('.example-tag');
+        
+        // Các phần tử hiển thị
+        const imageContainer = document.getElementById('imageContainer');
+        const biography = document.getElementById('biography');
+        const discoveries = document.getElementById('discoveries');
+        const relatedMathematicians = document.getElementById('relatedMathematicians');
+        
+        // Các phần tử loading
+        const imageLoading = document.getElementById('imageLoading');
+        const bioLoading = document.getElementById('bioLoading');
+        const discoveriesLoading = document.getElementById('discoveriesLoading');
+        const relatedLoading = document.getElementById('relatedLoading');
+        const mapLoading = document.getElementById('mapLoading');
+        
+        // DANH SÁCH NHÀ TOÁN HỌC VỚI TỌA ĐỘ
+        const MATHEMATICIAN_COORDINATES ={
+    'Isaac Newton': [52.8, -0.6],
+    'Albert Einstein': [48.7761, 9.1775],
+    'Pythagoras': [37.9667, 23.7167],
+    'Leonhard Euler': [47.383, 8.533],
+    'Carl Friedrich Gauss': [51.533, 9.933],
+    'Alan Turing': [51.515, -0.098],
+    'Pierre de Fermat': [43.6, 1.433],
+    'Évariste Galois': [48.8566, 2.3522],
+    'Archimedes': [37.0667, 15.3],
+    'Ada Lovelace': [51.5074, -0.1278],
+    'René Descartes': [47.2167, 1.7],
+    'Blaise Pascal': [45.7833, 3.0833],
+    'Ngô Bảo Châu': [21.0285, 105.8542],
+    'David Hilbert': [54.7074, 20.5073],
+    'Henri Poincaré': [48.6937, 6.1834],
+    'Andrew Wiles': [51.7520, -1.2577],
+    'John von Neumann': [47.4979, 19.0402],
+    'Kurt Gödel': [48.2082, 16.3738],
+    'Bernhard Riemann': [51.519, 9.943],
+    'Srinivasa Ramanujan': [10.7905, 79.1378],
+    'Paul Erdős': [47.4979, 19.0402],
+    'Alexander Grothendieck': [43.6047, 1.4442],
+    'Émile Borel': [44.8378, -0.5792],
+    'John Nash': [40.3469, -74.6554],
+    'Alonzo Church': [41.3169, -72.9168],
+    'Stephen Hawking': [51.458, -0.329],
+    'Grigori Perelman': [59.9343, 30.3351],
+    'Terence Tao': [-34.9285, 138.6007],
+    'Shing-Tung Yau': [22.3964, 114.1095],
+    'Maryam Mirzakhani': [35.6892, 51.3890],
+    'Emmy Noether': [51.1634, 10.4477],
+    'Sofia Kovalevskaya': [55.6763, 12.5681],
+    'Hypatia': [31.2001, 29.9187],
+    'Karl Weierstrass': [51.2277, 6.7735],
+    'Joseph-Louis Lagrange': [44.4072, 7.7167],
+    'Augustin-Louis Cauchy': [48.8566, 2.3522],
+    'Niels Henrik Abel': [60.3913, 5.3221],
+    'Arthur Cayley': [52.2053, 0.1218],
+    'William Rowan Hamilton': [53.3498, -6.2603],
+    'George Boole': [51.898, -8.475],
+    'Gottfried Wilhelm Leibniz': [52.3759, 9.7320],
+    'Georg Cantor': [55.6763, 12.5681],
+    'Richard Dedekind': [52.2689, 10.5268],
+    'Henri Lebesgue': [47.2184, -1.5536],
+    'Andrey Kolmogorov': [55.7558, 37.6173],
+    'John Milnor': [40.7128, -74.0060],
+    'Michael Atiyah': [55.9533, -3.1883],
+    'Paul Cohen': [40.7128, -74.0060],
+    'John Conway': [53.4808, -2.2426],
+    'Edward Witten': [40.7128, -74.0060],
+    'Shinichi Mochizuki': [35.6895, 139.6917],
+    'Peter Scholze': [50.7374, 7.0982],
+    'Cédric Villani': [43.6047, 1.4442],
+    'Mary Cartwright': [52.2053, 0.1218],
+    'Julia Robinson': [37.7749, -122.4194],
+    'Karen Uhlenbeck': [40.7128, -74.0060],
+    'Ruth Lawrence': [51.5074, -0.1278],
+    'Marjorie Lee Browne': [36.1627, -86.7816],
+    'Katherine Johnson': [37.4316, -78.6569],
+    'Élie Cartan': [46.6034, 1.8883],
+    'Sophus Lie': [59.9139, 10.7522],
+    'Felix Klein': [51.2277, 6.7735],
+    'Hermann Weyl': [47.3769, 8.5417],
+    'John G. Thompson': [30.2672, -97.7431],
+    'Peter Hall': [-37.8136, 144.9631],
+    'Persi Diaconis': [37.7749, -122.4194],
+    'Ingrid Daubechies': [50.8503, 4.3517],
+    'Fan Chung': [23.6978, 120.9605],
+    'Lars Hörmander': [55.6050, 13.0038],
+    'Jean-Pierre Serre': [43.6047, 1.4442],
+    'Pierre Deligne': [50.8503, 4.3517],
+    'Vladimir Arnold': [55.7558, 37.6173],
+    'Mikhail Gromov': [59.9343, 30.3351],
+    'Michael Freedman': [37.7749, -122.4194],
+    'Simon Donaldson': [51.5074, -0.1278],
+    'Edward Frenkel': [55.7558, 37.6173],
+    'Yuri Manin': [50.4501, 30.5234],
+    'Maxim Kontsevich': [55.7558, 37.6173],
+    'Dennis Sullivan': [40.7128, -74.0060],
+    'William Thurston': [40.7128, -74.0060],
+    'Robert Langlands': [49.2827, -123.1207],
+    'Freeman Dyson': [51.5074, -0.1278],
+    'Roger Penrose': [51.7520, -1.2577],
+    'Steven Smale': [42.3601, -71.0589],
+    'John Baez': [37.7749, -122.4194],
+    'Timothy Gowers': [52.2053, 0.1218],
+    'Manjul Bhargava': [40.7128, -74.0060],
+    'James Maynard': [51.7520, -1.2577],
+    'Harald Helfgott': [-12.0464, -77.0428],
+    'Maryna Viazovska': [50.4501, 30.5234],
+    'Peter Sarnak': [-26.2041, 28.0473],
+    'Shafi Goldwasser': [32.0853, 34.7818],
+    'Avi Wigderson': [32.0853, 34.7818],
+    'Subhash Khot': [19.0760, 72.8777],
+    'László Lovász': [47.4979, 19.0402],
+    'Endre Szemerédi': [47.4979, 19.0402],
+    'Paul Turán': [47.4979, 19.0402],
+    'Alfréd Rényi': [47.4979, 19.0402],
+    'Gábor Szegő': [47.4979, 19.0402],
+    'Lipót Fejér': [47.4979, 19.0402],
+    'John Edensor Littlewood': [52.2053, 0.1218],
+    'Godfrey Harold Hardy': [52.2053, 0.1218],
+    'Harald Bohr': [55.6763, 12.5681],
+    'Niels Bohr': [55.6763, 12.5681],
+    'Richard Feynman': [40.7128, -74.0060],
+    'Enrico Fermi': [41.9028, 12.4964],
+    'Werner Heisenberg': [48.1351, 11.5820],
+    'Erwin Schrödinger': [48.2082, 16.3738],
+    'Paul Dirac': [51.458, -0.329],
+    'Max Planck': [54.3233, 10.1394],
+    'Nikola Tesla': [45.8150, 15.9819],
+    'James Clerk Maxwell': [55.9533, -3.1883],
+    'Michael Faraday': [51.5074, -0.1278],
+    'Thomas Edison': [40.7128, -74.0060],
+    'Galileo Galilei': [43.7228, 10.4017],
+    'Johannes Kepler': [48.7758, 9.1829],
+    'Nicolaus Copernicus': [53.0103, 18.6042],
+    'Tycho Brahe': [55.6763, 12.5681],
+    'Giordano Bruno': [40.8518, 14.2681],
+    'Evangelista Torricelli': [43.7228, 10.4017],
+    'Benoit Mandelbrot': [48.8566, 2.3522],
+    'John Venn': [53.4808, -2.2426],
+    'George Pólya': [47.4979, 19.0402],
+    'Claude Shannon': [42.3601, -71.0589],
+    'Norbert Wiener': [42.3601, -71.0589],
+    'John McCarthy': [37.7749, -122.4194],
+    'Marvin Minsky': [40.7128, -74.0060],
+    'Herbert Simon': [40.4406, -79.9959],
+    'Allen Newell': [40.4406, -79.9959],
+    'Raj Reddy': [17.3850, 78.4867],
+    'Judea Pearl': [32.0853, 34.7818],
+    'Geoffrey Hinton': [51.5074, -0.1278],
+    'Yann LeCun': [48.8566, 2.3522],
+    'Yoshua Bengio': [45.5017, -73.5673],
+    'Andrew Ng': [37.7749, -122.4194],
+    'Fei-Fei Li': [31.2304, 121.4737],
+    'Euclid': [37.9838, 23.7275],
+    'Aristotle': [40.6401, 22.9444],
+    'Plato': [37.9838, 23.7275],
+    'Fibonacci': [43.7696, 11.2558],
+    'Gerolamo Cardano': [45.4642, 9.1900],
+    'John Wallis': [51.7520, -1.2577],
+    'Brook Taylor': [51.5074, -0.1278],
+    'Colin Maclaurin': [55.9533, -3.1883],
+    'Pierre-Simon Laplace': [49.1193, -1.0900],
+    'Siméon Denis Poisson': [48.8566, 2.3522],
+    'Joseph Fourier': [47.2184, -1.5536],
+    'Daniel Bernoulli': [47.5596, 7.5886],
+    'Johann Bernoulli': [47.5596, 7.5886],
+    'Jacob Bernoulli': [47.5596, 7.5886],
+    'Christiaan Huygens': [52.3702, 4.8952],
+    'Pierre de Fermat': [43.6000, 1.4333],
+    'Marin Mersenne': [48.8566, 2.3522],
+    'John Napier': [55.9533, -3.1883],
+    'Henry Briggs': [53.7997, -1.5492],
+    'Adrien-Marie Legendre': [48.8566, 2.3522],
+    'Charles Hermite': [49.1193, -1.0900],
+    'Édouard Lucas': [44.9333, 4.9000],
+    'Thales of Miletus': [37.5308, 27.2854],
+    'Anaxagoras': [38.4192, 27.1287],
+    'Zeno of Elea': [38.2622, 15.6533],
+    'Democritus': [41.0136, 28.9550],
+    'Eudoxus of Cnidus': [36.6913, 27.3746],
+    'Apollonius of Perga': [36.9592, 31.0010],
+    'Diophantus': [37.9838, 23.7275],
+    'Pappus of Alexandria': [31.2001, 29.9187],
+    'Hypatia of Alexandria': [31.2001, 29.9187],
+    'Brahmagupta': [26.9124, 70.9124],
+    'Aryabhata': [25.5941, 85.1376],
+    'Bhaskara II': [16.1667, 74.8333],
+    'Madhava of Sangamagrama': [10.5276, 76.2144],
+    'Omar Khayyam': [36.2605, 58.6238],
+    'Al-Khwarizmi': [33.3152, 44.3661],
+    'Al-Kindi': [33.3152, 44.3661],
+    'Al-Biruni': [37.7749, -122.4194],
+    'Nasir al-Din al-Tusi': [37.5553, 45.0725],
+    'Ibn al-Haytham': [30.0444, 31.2357],
+    'Ghiyath al-Kashi': [35.6892, 51.3890],
+    'Liu Hui': [34.3416, 108.9398],
+    'Zu Chongzhi': [32.0603, 118.7969],
+    'Zhang Heng': [34.3416, 108.9398],
+    'Shen Kuo': [30.2741, 120.1551],
+    'Yang Hui': [30.2741, 120.1551],
+    'Zhu Shijie': [39.9042, 116.4074],
+    'Wang Xiaotong': [34.3416, 108.9398],
+    'Li Chunfeng': [34.3416, 108.9398],
+    'Leonardo da Vinci': [43.7696, 11.2558],
+    'Johannes Regiomontanus': [49.4521, 11.0767],
+    'Niccolò Tartaglia': [45.4382, 12.3193],
+    'Rafael Bombelli': [44.4949, 11.3426],
+    'François Viète': [46.5802, -0.3402],
+    'Thomas Harriot': [51.5074, -0.1278],
+    'Henry Savile': [53.9590, -1.0815],
+    'William Oughtred': [51.5074, -0.1278],
+    'Richard Norwood': [51.5074, -0.1278],
+    'Seth Ward': [51.7520, -1.2577],
+    'John Pell': [51.5074, -0.1278],
+    'Isaac Barrow': [52.2053, 0.1218],
+    'John Collins': [51.5074, -0.1278],
+    'James Gregory': [56.4907, -2.9904],
+    'Nicolas Malebranche': [48.8566, 2.3522],
+    'Gottfried Achenwall': [52.3759, 9.7320],
+    'Johann Heinrich Lambert': [47.5596, 7.5886],
+    'Antoine Arbogast': [47.3188, 5.0320],
+    'Silvestre Lacroix': [48.8566, 2.3522],
+    'Adrien Quentin Buée': [48.8566, 2.3522],
+    'Robert Woodhouse': [52.2053, 0.1218],
+    'George Peacock': [53.9590, -1.0815],
+    'Augustus De Morgan': [51.5074, -0.1278],
+    'William Rowan Hamilton': [53.3498, -6.2603],
+    'George Boole': [51.8985, -8.4756],
+    'Arthur Cayley': [52.2053, 0.1218],
+    'James Joseph Sylvester': [51.5074, -0.1278],
+    'John Venn': [53.7446, -0.3353],
+    'Charles Dodgson': [51.7520, -1.2577],
+    'John Venn': [53.7446, -0.3353],
+    'George Cantor': [52.5200, 13.4050],
+    'Richard Dedekind': [52.2689, 10.5268],
+    'Leopold Kronecker': [52.5200, 13.4050],
+    'Karl Weierstrass': [51.2277, 6.7735],
+    'Georg Frobenius': [52.5200, 13.4050],
+    'Ferdinand Georg Frobenius': [52.5200, 13.4050],
+    'Mikhail Ostrogradsky': [50.4501, 30.5234],
+    'Pafnuty Chebyshev': [55.7558, 37.6173],
+    'Andrey Markov': [59.9343, 30.3351],
+    'Nikolai Lobachevsky': [55.7961, 49.1064],
+    'János Bolyai': [46.0727, 18.2283],
+    'Bernhard Bolzano': [49.1951, 16.6068],
+    'George Green': [52.9548, -1.1581],
+    'William Thomson': [55.8651, -4.2576],
+    'George Stokes': [52.2053, 0.1218],
+    'James Clerk Maxwell': [55.9533, -3.1883],
+    'Ludwig Boltzmann': [48.2082, 16.3738],
+    'Josiah Willard Gibbs': [41.3083, -72.9279],
+    'Henri Poincaré': [48.6937, 6.1834],
+    'David Hilbert': [54.7074, 20.5073],
+    'Felix Klein': [51.2277, 6.7735],
+    'Hermann Minkowski': [54.7074, 20.5073],
+    'Émile Borel': [44.8378, -0.5792],
+    'René-Louis Baire': [45.1885, 5.7245],
+    'Henri Lebesgue': [47.2184, -1.5536],
+    'Johann Radon': [48.3069, 14.2858],
+    'Frigyes Riesz': [46.2530, 20.1414],
+    'Marcel Riesz': [55.6050, 13.0038],
+    'John von Neumann': [47.4979, 19.0402],
+    'Stanislaw Ulam': [49.8397, 24.0297],
+    'Mark Kac': [49.8397, 24.0297],
+    'Paul Erdős': [47.4979, 19.0402],
+    'Alfréd Rényi': [47.4979, 19.0402],
+    'Gábor Szegő': [47.4979, 19.0402],
+    'Paul Turán': [47.4979, 19.0402],
+    'László Lovász': [47.4979, 19.0402],
+    'Endre Szemerédi': [47.4979, 19.0402],
+    'Harald Bohr': [55.6763, 12.5681],
+    'Niels Bohr': [55.6763, 12.5681],
+    'Max Born': [51.5334, 9.9352],
+    'Werner Heisenberg': [48.1351, 11.5820],
+    'Erwin Schrödinger': [48.2082, 16.3738],
+    'Paul Dirac': [51.4545, -2.5879],
+    'Wolfgang Pauli': [48.2082, 16.3738],
+    'Enrico Fermi': [41.9028, 12.4964],
+    'Eugene Wigner': [47.4979, 19.0402],
+    'John Bardeen': [43.0731, -89.4012],
+    'Walter Brattain': [45.6755, -111.0470],
+    'William Shockley': [51.5074, -0.1278],
+    'Claude Shannon': [42.3316, -83.0479],
+    'Norbert Wiener': [42.3736, -71.1097],
+    'John McCarthy': [37.7749, -122.4194],
+    'Marvin Minsky': [40.7128, -74.0060],
+    'Seymour Papert': [-33.9249, 18.4241],
+    'Donald Knuth': [37.7749, -122.4194],
+    'Edsger Dijkstra': [52.3702, 4.8952],
+    'Tony Hoare': [51.7520, -1.2577],
+    'John Backus': [40.7128, -74.0060],
+    'Peter Naur': [55.6763, 12.5681],
+    'Niklaus Wirth': [47.3769, 8.5417],
+    'Alan Kay': [40.7128, -74.0060],
+    'Robert Floyd': [41.8781, -87.6298],
+    'Stephen Cook': [43.6532, -79.3832],
+    'Richard Karp': [37.7749, -122.4194],
+    'Michael Rabin': [32.0853, 34.7818],
+    'Dana Scott': [40.4406, -79.9959],
+    'Robin Milner': [55.9533, -3.1883],
+    'C.A.R. Hoare': [51.7520, -1.2577],
+    'Leslie Lamport': [40.7128, -74.0060],
+    'Andrew Yao': [22.3964, 114.1095],
+    'Shafi Goldwasser': [32.0853, 34.7818],
+    'Silvio Micali': [37.9838, 23.7275],
+    'Manuel Blum': [40.4406, -79.9959],
+    'Oded Goldreich': [32.0853, 34.7818],
+    'Charles Bennett': [40.7128, -74.0060],
+    'Gilles Brassard': [45.5017, -73.5673],
+    'Peter Shor': [40.7128, -74.0060],
+    'Lov Grover': [40.7128, -74.0060],
+    'Scott Aaronson': [30.2672, -97.7431],
+    'John Preskill': [34.0689, -118.4452],
+    'Michael Nielsen': [-27.4698, 153.0251],
+    'Sean Carroll': [34.0522, -118.2437],
+    'Lisa Randall': [42.3736, -71.1097],
+    'Brian Greene': [40.7128, -74.0060],
+    'Edward Witten': [40.7128, -74.0060],
+    'Juan Maldacena': [-34.6037, -58.3816],
+    'Cumrun Vafa': [35.6892, 51.3890],
+    'Ashoke Sen': [22.5726, 88.3639],
+    'Andrew Strominger': [42.3736, -71.1097],
+    'Joseph Polchinski': [40.7128, -74.0060],
+    'Leonard Susskind': [40.7128, -74.0060],
+    'Gerard t Hooft': [52.3702, 4.8952],
+    'David Gross': [40.7128, -74.0060],
+    'Frank Wilczek': [40.7128, -74.0060],
+    'Steven Weinberg': [30.2672, -97.7431],
+    'Sheldon Glashow': [42.3601, -71.0589],
+    'Abdus Salam': [31.5497, 74.3436],
+    'Peter Higgs': [55.9533, -3.1883],
+    'François Englert': [50.8503, 4.3517],
+    'Carlo Rubbia': [44.4949, 11.3426],
+    'Simon van der Meer': [52.3702, 4.8952],
+    'Martinus Veltman': [52.3702, 4.8952],
+    'Gerardus t Hooft': [52.3702, 4.8952],
+    'David Politzer': [34.0522, -118.2437],
+    'Frank Wilczek': [40.7128, -74.0060],
+    'David Gross': [40.7128, -74.0060],
+    'H. David Politzer': [34.0522, -118.2437],
+    'Anthony Leggett': [40.1106, -88.2073],
+    'Alexei Abrikosov': [55.7558, 37.6173],
+    'Vitaly Ginzburg': [55.7558, 37.6173],
+    'Brian Josephson': [51.7520, -1.2577],
+    'Leo Esaki': [35.6895, 139.6917],
+    'Ivar Giaever': [59.9139, 10.7522],
+    'John Hasbrouck Van Vleck': [42.3736, -71.1097],
+    'Philip Warren Anderson': [40.7128, -74.0060],
+    'Sir Nevill Mott': [52.2053, 0.1218],
+    'John H. Van Vleck': [42.3736, -71.1097],
+    'Kenneth G. Wilson': [40.7128, -74.0060],
+    'Leo Kadanoff': [41.8781, -87.6298],
+    'Michael Fisher': [51.5074, -0.1278],
+    'David Thouless': [55.9533, -3.1883],
+    'Duncan Haldane': [51.5074, -0.1278],
+    'John Michael Kosterlitz': [51.5074, -0.1278],
+    'Roger Penrose': [51.7520, -1.2577],
+    'Reinhard Genzel': [48.1374, 11.5755],
+    'Andrea Ghez': [34.0522, -118.2437],
+    'Kip Thorne': [40.7128, -74.0060],
+    'Barry Barish': [34.0522, -118.2437],
+    'Rainer Weiss': [42.3736, -71.1097],
+    'Joseph Taylor': [40.3469, -74.6554],
+    'Russell Hulse': [40.7128, -74.0060],
+    'Aleksandr Prokhorov': [55.7558, 37.6173],
+    'Nicolay Basov': [55.7558, 37.6173],
+    'Charles Townes': [35.2211, -80.8392],
+    'Arthur Schawlow': [40.7128, -74.0060],
+    'Nicolaas Bloembergen': [52.3702, 4.8952],
+    'Arthur Ashkin': [40.7128, -74.0060],
+    'Gérard Mourou': [48.8566, 2.3522],
+    'Donna Strickland': [43.4723, -80.5449],
+    'Roy Glauber': [42.3736, -71.1097],
+    'John Hall': [39.7392, -104.9903],
+    'Theodor Hänsch': [48.1374, 11.5755],
+    'Serge Haroche': [48.8566, 2.3522],
+    'David Wineland': [39.7392, -104.9903],
+    'Alain Aspect': [44.8378, -0.5792],
+    'John Clauser': [37.7749, -122.4194],
+    'Anton Zeilinger': [48.2082, 16.3738],
+    'Peter Zoller': [47.2692, 11.4041],
+    'Ignacio Cirac': [40.4168, -3.7038],
+    'Juan Ignacio Cirac': [40.4168, -3.7038],
+    'Michel Devoret': [48.8566, 2.3522],
+    'Robert Schoelkopf': [41.3083, -72.9279],
+    'John Martinis': [34.0522, -118.2437],
+    'Andrew White': [-27.4698, 153.0251],
+    'Timothy Ralph': [-27.4698, 153.0251],
+    'Ping Koy Lam': [-27.4698, 153.0251],
+    'Jian-Wei Pan': [31.2304, 121.4737],
+    'Anton Zeilinger': [48.2082, 16.3738],
+    'Nicolas Gisin': [46.2044, 6.1432],
+    'Artur Ekert': [51.7520, -1.2577],
+    'Charles Bennett': [40.7128, -74.0060],
+    'Gilles Brassard': [45.5017, -73.5673],
+    'Peter Shor': [40.7128, -74.0060],
+    'Lov Grover': [40.7128, -74.0060],
+    'Michele Mosca': [43.4723, -80.5449],
+    'John Preskill': [34.0689, -118.4452],
+    'Scott Aaronson': [30.2672, -97.7431],
+    'Umesh Vazirani': [37.7749, -122.4194],
+    'Dorit Aharonov': [31.7683, 35.2137],
+    'Andris Ambainis': [56.9496, 24.1052],
+    'Harry Buhrman': [52.3702, 4.8952],
+    'Ronald de Wolf': [52.3702, 4.8952],
+    'Iordanis Kerenidis': [48.8566, 2.3522],
+    'Ashley Montanaro': [51.4545, -2.5879],
+    'Anand Natarajan': [37.7749, -122.4194],
+    'Thomas Vidick': [34.0522, -118.2437],
+    'John Wright': [40.7128, -74.0060],
+    'Ewin Tang': [47.6062, -122.3321],
+    'Ching-Yi Lai': [25.0330, 121.5654],
+    'Mario Szegedy': [47.4979, 19.0402],
+    'Miklós Santha': [48.8566, 2.3522],
+    'Frédéric Magniez': [48.8566, 2.3522],
+    'Peter Høyer': [55.6763, 12.5681],
+    'Andris Ambainis': [56.9496, 24.1052],
+    'Robert Spalek': [52.3702, 4.8952],
+    'Shengyu Zhang': [22.3964, 114.1095],
+    'Yaoyun Shi': [30.2672, -97.7431],
+    'Andrew Childs': [43.4723, -80.5449],
+    'Robin Kothari': [49.2827, -123.1207],
+    'John Watrous': [43.4723, -80.5449],
+    'Gus Gutoski': [43.4723, -80.5449],
+    'Troy Lee': [-27.4698, 153.0251],
+    'Ronald de Wolf': [52.3702, 4.8952],
+    'Harry Buhrman': [52.3702, 4.8952],
+    'Heinrich Rohrer': [47.3769, 8.5417],
+    'Gerd Binnig': [48.1374, 11.5755],
+    'Ernst Ruska': [51.2277, 6.7735],
+    'Max Knoll': [48.1374, 11.5755],
+    'Manfred von Ardenne': [52.5200, 13.4050],
+    'Albert Crewe': [41.8781, -87.6298],
+    'Harald Rose': [49.4521, 11.0767],
+    'Knudsen': [55.6763, 12.5681],
+    'Oscar Buneman': [51.7520, -1.2577],
+    'Charles Oatley': [52.2053, 0.1218],
+    'Tom Mulvey': [52.2053, 0.1218],
+    'Raymond Gosling': [51.5074, -0.1278],
+    'Maurice Wilkins': [51.5074, -0.1278],
+    'Rosalind Franklin': [51.5074, -0.1278],
+    'James Watson': [41.3083, -72.9279],
+    'Francis Crick': [52.2053, 0.1218],
+    'Maurice Wilkins': [51.5074, -0.1278],
+    'Aaron Klug': [51.5074, -0.1278],
+    'Dorothy Hodgkin': [51.7520, -1.2577],
+    'Max Perutz': [48.2082, 16.3738],
+    'John Kendrew': [52.2053, 0.1218],
+    'Frederick Sanger': [52.2053, 0.1218],
+    'Walter Gilbert': [42.3736, -71.1097],
+    'Paul Berg': [37.7749, -122.4194],
+    'Kary Mullis': [34.0522, -118.2437],
+    'Michael Smith': [49.2827, -123.1207],
+    'Robert Curl': [29.7604, -95.3698],
+    'Harold Kroto': [51.5074, -0.1278],
+    'Richard Smalley': [29.7604, -95.3698],
+    'Robert F. Curl': [29.7604, -95.3698],
+    'Sir Harold Kroto': [51.5074, -0.1278],
+    'Richard E. Smalley': [29.7604, -95.3698],
+    'Ahmed Zewail': [30.0444, 31.2357],
+    'Roger Tsien': [32.7157, -117.1611],
+    'Osamu Shimomura': [35.6895, 139.6917],
+    'Martin Chalfie': [40.7128, -74.0060],
+    'Roger Y. Tsien': [32.7157, -117.1611],
+    'Eric Betzig': [42.3316, -83.0479],
+    'Stefan Hell': [49.4521, 11.0767],
+    'William Moerner': [37.7749, -122.4194],
+    'Jacques Dubochet': [46.2044, 6.1432],
+    'Joachim Frank': [40.7128, -74.0060],
+    'Richard Henderson': [55.9533, -3.1883],
+    'John B. Goodenough': [40.7128, -74.0060],
+    'M. Stanley Whittingham': [40.7128, -74.0060],
+    'Akira Yoshino': [35.6895, 139.6917],
+    'Frances Arnold': [34.0522, -118.2437],
+    'George Smith': [38.9517, -92.3341],
+    'Sir Gregory Winter': [52.2053, 0.1218],
+    'James Allison': [29.7604, -95.3698],
+    'Tasuku Honjo': [35.6895, 139.6917],
+    'William Kaelin': [42.3736, -71.1097],
+    'Peter Ratcliffe': [51.7520, -1.2577],
+    'Gregg Semenza': [39.2904, -76.6122],
+    'Harvey Alter': [40.7128, -74.0060],
+    'Michael Houghton': [53.4808, -2.2426],
+    'Charles Rice': [40.7128, -74.0060],
+    'David Baltimore': [40.7128, -74.0060],
+    'Renato Dulbecco': [44.4949, 11.3426],
+    'Howard Temin': [43.0731, -89.4012],
+    'J. Michael Bishop': [37.7749, -122.4194],
+    'Harold Varmus': [40.7128, -74.0060],
+    'Stanley Prusiner': [37.7749, -122.4194],
+    'Linda Buck': [47.6062, -122.3321],
+    'Richard Axel': [40.7128, -74.0060],
+    'Peter Agre': [44.9635, -93.2678],
+    'Roderick MacKinnon': [40.7128, -74.0060],
+    'Roger Kornberg': [37.7749, -122.4194],
+    'Ada Yonath': [31.7683, 35.2137],
+    'Venkatraman Ramakrishnan': [51.5074, -0.1278],
+    'Thomas Steitz': [41.3083, -72.9279],
+    'Brian Kobilka': [37.7749, -122.4194],
+    'Robert Lefkowitz': [35.9042, -79.0469],
+    'Martin Karplus': [48.2082, 16.3738],
+    'Michael Levitt': [37.7749, -122.4194],
+    'Arieh Warshel': [32.0853, 34.7818],
+    'Eric Betzig': [42.3316, -83.0479],
+    'Stefan Hell': [49.4521, 11.0767],
+    'William Moerner': [37.7749, -122.4194],
+    'Sir John Gurdon': [52.2053, 0.1218],
+    'Shinya Yamanaka': [35.6895, 139.6917],
+    'James Rothman': [40.7128, -74.0060],
+    'Randy Schekman': [37.7749, -122.4194],
+    'Thomas Südhof': [48.7758, 9.1829],
+    'John O Keefe': [51.5074, -0.1278],
+    'May-Britt Moser': [63.4305, 10.3951],
+    'Edvard Moser': [63.4305, 10.3951],
+    'Yoshinori Ohsumi': [35.6895, 139.6917],
+    'Jeffrey Hall': [42.3736, -71.1097],
+    'Michael Rosbash': [42.3736, -71.1097],
+    'Michael Young': [40.7128, -74.0060],
+    'James Allison': [29.7604, -95.3698],
+    'Tasuku Honjo': [35.6895, 139.6917],
+    'William Kaelin': [42.3736, -71.1097],
+    'Peter Ratcliffe': [51.7520, -1.2577],
+    'Gregg Semenza': [39.2904, -76.6122],
+    'David Julius': [37.7749, -122.4194],
+    'Ardem Patapoutian': [34.0522, -118.2437],
+    'Svante Pääbo': [59.3293, 18.0686],
+    'Katalin Karikó': [47.4979, 19.0402],
+    'Drew Weissman': [39.9526, -75.1652],
+    'Jennifer Doudna': [37.7749, -122.4194],
+    'Emmanuelle Charpentier': [48.8566, 2.3522],
+    'Virginijus Šikšnys': [54.6872, 25.2797],
+    'Feng Zhang': [42.3736, -71.1097],
+    'George Church': [42.3736, -71.1097],
+    'David Liu': [42.3736, -71.1097],
+    'Patrick Hsu': [37.7749, -122.4194],
+    'Omar Abudayyeh': [42.3736, -71.1097],
+    'Jonathan Gootenberg': [42.3736, -71.1097],
+    'Pardis Sabeti': [42.3736, -71.1097],
+    'Michael Elowitz': [34.0522, -118.2437],
+    'James Collins': [42.3736, -71.1097],
+    'Ron Weiss': [42.3736, -71.1097],
+    'Christopher Voigt': [37.7749, -122.4194],
+    'Jay Keasling': [37.7749, -122.4194],
+    'Kristala Prather': [42.3736, -71.1097],
+    'Michelle Chang': [37.7749, -122.4194],
+    'Michael Jewett': [42.3601, -71.0589],
+    'George Whitesides': [42.3736, -71.1097],
+    'Robert Langer': [42.3736, -71.1097],
+    'Joseph DeSimone': [35.9042, -79.0469],
+    'Jennifer Lewis': [40.1106, -88.2073],
+    'Shaochen Chen': [32.7157, -117.1611],
+    'Ali Khademhosseini': [34.0522, -118.2437],
+    'Molly Shoichet': [43.6532, -79.3832],
+    'Jeffrey Hubbell': [41.8781, -87.6298],
+    'David Mooney': [42.3736, -71.1097],
+    'Leroy Hood': [47.6062, -122.3321],
+    'Michael Snyder': [37.7749, -122.4194],
+    'George Church': [42.3736, -71.1097],
+    'J. Craig Venter': [32.7157, -117.1611],
+    'Francis Collins': [38.9072, -77.0369],
+    'Eric Lander': [42.3736, -71.1097],
+    'David Botstein': [40.7128, -74.0060],
+    'Michael Waterman': [34.0522, -118.2437],
+    'Eugene Myers': [51.2277, 6.7735],
+    'Richard Durbin': [52.2053, 0.1218],
+    'Sean Eddy': [42.3736, -71.1097],
+    'Steven Brenner': [37.7749, -122.4194],
+    'Arend Sidow': [37.7749, -122.4194],
+    'Webb Miller': [40.7934, -77.8600],
+    'David Haussler': [36.9741, -122.0308],
+    'Jim Kent': [36.9741, -122.0308],
+    'Eric Green': [38.9072, -77.0369],
+    'Adam Phillippy': [38.9072, -77.0369],
+    'Evan Eichler': [47.6062, -122.3321],
+    'Richard Gibbs': [29.7604, -95.3698],
+    'Stephen Scherer': [43.6532, -79.3832],
+    'Stylianos Antonarakis': [46.2044, 6.1432],
+    'Joris Veltman': [51.8126, 5.8372],
+    'Han Brunner': [51.8126, 5.8372],
+    'Johan den Dunnen': [52.1601, 4.4970],
+    'Gert-Jan van Ommen': [52.1601, 4.4970],
+    'Martijn Huynen': [51.8126, 5.8372],
+    'Barend Mons': [52.1601, 4.4970],
+    'Chris Sander': [42.3736, -71.1097],
+    'Jill Mesirov': [32.7157, -117.1611],
+    'Atul Butte': [37.7749, -122.4194],
+    'Isaac Kohane': [42.3736, -71.1097],
+    'Nicholas Tatonetti': [40.7128, -74.0060],
+    'Rumi Chunara': [40.7128, -74.0060],
+    'John Brownstein': [42.3736, -71.1097],
+    'Mauricio Santillana': [42.3736, -71.1097],
+    'Samuel Scarpino': [42.3601, -71.0589],
+    'Lauren Gardner': [39.2904, -76.6122],
+    'Alessandro Vespignani': [42.3736, -71.1097],
+    'Marc Lipsitch': [42.3736, -71.1097],
+    'Gabriel Leung': [22.3964, 114.1095],
+    'Joseph Wu': [22.3964, 114.1095],
+    'Malik Peiris': [22.3964, 114.1095],
+    'Kwok-Yung Yuen': [22.3964, 114.1095],
+    'Leo Poon': [22.3964, 114.1095],
+    'Yi Guan': [22.3964, 114.1095],
+    'Zhong Nanshan': [23.1291, 113.2644],
+    'Li Lanjuan': [30.2741, 120.1551],
+    'Zhang Boli': [39.9042, 116.4074],
+    'Chen Wei': [39.9042, 116.4074],
+    'Wang Chen': [39.9042, 116.4074],
+    'Zhang Wenhong': [31.2304, 121.4737],
+    'Zeng Guang': [23.1291, 113.2644],
+    'Li Qun': [39.9042, 116.4074],
+    'Wu Zunyou': [39.9042, 116.4074],
+    'Feng Zijian': [39.9042, 116.4074],
+    'Yang Gonghuan': [39.9042, 116.4074],
+    'Hu Shanlian': [31.2304, 121.4737],
+    'Jin Qi': [39.9042, 116.4074],
+    'Wang Linfa': [1.3521, 103.8198],
+    'Linfa Wang': [1.3521, 103.8198],
+    'Yuen Kwok-yung': [22.3964, 114.1095],
+    'Ivan Hung': [22.3964, 114.1095],
+    'David Hui': [22.3964, 114.1095],
+    'Michael Chan': [22.3964, 114.1095],
+    'Kwok-Hung Chan': [22.3964, 114.1095],
+    'Kelvin To': [22.3964, 114.1095],
+    'Jasper Fuk-Woo Chan': [22.3964, 114.1095],
+    'Kwok-Yung Yuen': [22.3964, 114.1095],
+    'Joseph Sriyal Malik Peiris': [6.9271, 79.8612],
+    'Menno de Jong': [52.3702, 4.8952],
+    'Albert Osterhaus': [52.3702, 4.8952],
+    'Ron Fouchier': [52.3702, 4.8952],
+    'Thijs Kuiken': [52.3702, 4.8952],
+    'Marion Koopmans': [52.3702, 4.8952],
+    'Bart Haagmans': [52.3702, 4.8952],
+    'Rory de Vries': [52.3702, 4.8952],
+    'Debby van Riel': [51.8126, 5.8372],
+    'Sander Herfst': [52.3702, 4.8952],
+    'Ron Fouchier': [52.3702, 4.8952],
+    'Yoshihiro Kawaoka': [35.6895, 139.6917],
+    'Gabriele Neumann': [43.0731, -89.4012],
+    'Masato Hatta': [35.6895, 139.6917],
+    'Shinji Watanabe': [35.6895, 139.6917],
+    'Peter Palese': [40.7128, -74.0060],
+    'Adolfo García-Sastre': [40.7128, -74.0060],
+    'Randy Albrecht': [40.7128, -74.0060],
+    'Florian Krammer': [40.7128, -74.0060],
+    'Alessandro Sette': [32.7157, -117.1611],
+    'Shane Crotty': [32.7157, -117.1611],
+    'Rafi Ahmed': [33.7490, -84.3880],
+    'Bali Pulendran': [37.7749, -122.4194],
+    'Akiko Iwasaki': [41.3083, -72.9279],
+    'Yong-Jun Liu': [29.7604, -95.3698],
+    'Ken Ishii': [35.6895, 139.6917],
+    'Tasuku Honjo': [35.6895, 139.6917],
+    'James Allison': [29.7604, -95.3698],
+    'Carl June': [39.9526, -75.1652],
+    'Steven Rosenberg': [38.9072, -77.0369],
+    'Michel Sadelain': [40.7128, -74.0060],
+    'Zelig Eshhar': [31.7683, 35.2137],
+    'Carlos Barbas': [32.7157, -117.1611],
+    'Patrick Hwu': [29.7604, -95.3698],
+    'Cassian Yee': [29.7604, -95.3698],
+    'Stanley Riddell': [47.6062, -122.3321],
+    'Philip Greenberg': [47.6062, -122.3321],
+    'Michael Jensen': [47.6062, -122.3321],
+    'Crystal Mackall': [37.7749, -122.4194],
+    'Renier Brentjens': [40.7128, -74.0060],
+    'David Scheinberg': [40.7128, -74.0060],
+    'Isabelle Rivière': [40.7128, -74.0060],
+    'Michel Sadelain': [40.7128, -74.0060],
+    'Carl June': [39.9526, -75.1652],
+    'Bruce Levine': [39.9526, -75.1652],
+    'James Kochenderfer': [38.9072, -77.0369],
+    'Nirali Shah': [38.9072, -77.0369],
+    'Terry Fry': [39.7392, -104.9903],
+    'Daniel Lee': [39.9526, -75.1652],
+    'Steven Feldman': [39.9526, -75.1652],
+    'David Porter': [39.9526, -75.1652],
+    'Joseph Fraietta': [39.9526, -75.1652],
+    'Regina Young': [39.9526, -75.1652],
+    'Alena Chekmasova': [39.9526, -75.1652],
+    'Simon Lacey': [39.9526, -75.1652],
+    'Yangbing Zhao': [39.9526, -75.1652],
+    'Donald White': [39.9526, -75.1652],
+    'Gianpietro Dotti': [44.4949, 11.3426],
+    'Barbara Savoldo': [44.4949, 11.3426],
+    'Cliona Rooney': [29.7604, -95.3698],
+    'Helen Heslop': [29.7604, -95.3698],
+    'Gianpietro Dotti': [44.4949, 11.3426],
+    'Malcolm Brenner': [29.7604, -95.3698],
+    'Stephen Gottschalk': [29.7604, -95.3698],
+    'Michael Jensen': [47.6062, -122.3321],
+    'Crystal Mackall': [37.7749, -122.4194],
+    'Robbie Majzner': [37.7749, -122.4194],
+    'Liora Schultz': [37.7749, -122.4194],
+    'Vivek Badrinath': [37.7749, -122.4194],
+    'Rebecca Gardner': [47.6062, -122.3321],
+    'Colleen Annesley': [47.6062, -122.3321],
+    'Julie Park': [47.6062, -122.3321],
+    'Mike Jensen': [47.6062, -122.3321],
+    'David Barrett': [39.9526, -75.1652],
+    'Shannon Maude': [39.9526, -75.1652],
+    'Noelle Frey': [39.9526, -75.1652],
+    'David Teachey': [39.9526, -75.1652],
+    'Stephan Grupp': [39.9526, -75.1652],
+    'Sarah Tasian': [39.9526, -75.1652],
+    'Andrei Shustov': [47.6062, -122.3321],
+    'Cameron Turtle': [47.6062, -122.3321],
+    'David Maloney': [47.6062, -122.3321],
+    'Stanley Riddell': [47.6062, -122.3321],
+    'Philip Greenberg': [47.6062, -122.3321],
+    'Michael Jensen': [47.6062, -122.3321],
+    'Crystal Mackall': [37.7749, -122.4194],
+    'Renier Brentjens': [40.7128, -74.0060],
+    'David Scheinberg': [40.7128, -74.0060],
+    'Isabelle Rivière': [40.7128, -74.0060],
+    'Michel Sadelain': [40.7128, -74.0060],
+    'Carl June': [39.9526, -75.1652],
+    'Bruce Levine': [39.9526, -75.1652],
+    'James Kochenderfer': [38.9072, -77.0369],
+    'Nirali Shah': [38.9072, -77.0369],
+    'Terry Fry': [39.7392, -104.9903],
+    'Daniel Lee': [39.9526, -75.1652],
+    'Steven Feldman': [39.9526, -75.1652],
+    'David Porter': [39.9526, -75.1652],
+    'Joseph Fraietta': [39.9526, -75.1652],
+    'Regina Young': [39.9526, -75.1652],
+    'Alena Chekmasova': [39.9526, -75.1652],
+    'Simon Lacey': [39.9526, -75.1652],
+    'Yangbing Zhao': [39.9526, -75.1652],
+    'Donald White': [39.9526, -75.1652],
+    'Gianpietro Dotti': [44.4949, 11.3426],
+    'Barbara Savoldo': [44.4949, 11.3426],
+    'Cliona Rooney': [29.7604, -95.3698],
+    'Helen Heslop': [29.7604, -95.3698],
+    'Gianpietro Dotti': [44.4949, 11.3426],
+    'Malcolm Brenner': [29.7604, -95.3698],
+    'Stephen Gottschalk': [29.7604, -95.3698],
+    'Michael Jensen': [47.6062, -122.3321],
+    'Crystal Mackall': [37.7749, -122.4194],
+    'Robbie Majzner': [37.7749, -122.4194],
+    'Liora Schultz': [37.7749, -122.4194],
+    'Vivek Badrinath': [37.7749, -122.4194],
+    'Rebecca Gardner': [47.6062, -122.3321],
+    'Colleen Annesley': [47.6062, -122.3321],
+    'Julie Park': [47.6062, -122.3321],
+    'Mike Jensen': [47.6062, -122.3321],
+    'David Barrett': [39.9526, -75.1652],
+    'Shannon Maude': [39.9526, -75.1652],
+    'Noelle Frey': [39.9526, -75.1652],
+    'David Teachey': [39.9526, -75.1652],
+    'Stephan Grupp': [39.9526, -75.1652],
+    'Sarah Tasian': [39.9526, -75.1652],
+    'Andrei Shustov': [47.6062, -122.3321],
+    'Cameron Turtle': [47.6062, -122.3321],
+    'David Maloney': [47.6062, -122.3321],
+    'Stanley Riddell': [47.6062, -122.3321],
+    'Philip Greenberg': [47.6062, -122.3321],
+    'Michael Jensen': [47.6062, -122.3321],
+    'Crystal Mackall': [37.7749, -122.4194],
+       
         };
-
-        const countryNameMap = {
-            "Việt Nam": "Vietnam",
-            "Anh": "United Kingdom",
-            "Mỹ": "United States",
-            "Hoa Kỳ": "United States",
-            "Pháp": "France",
-            "Đức": "Germany",
-            "Nga": "Russia",
-            "Nhật Bản": "Japan",
-            "Trung Quốc": "China",
-            "Trung Hoa": "China",
-            "Hàn Quốc": "South Korea",
-            "Ấn Độ": "India",
-            "Brazil": "Brazil",
-            "Canada": "Canada",
-            "Ý": "Italy",
-            "Tây Ban Nha": "Spain",
-            "Bồ Đào Nha": "Portugal",
-            "Thụy Điển": "Sweden",
-            "Na Uy": "Norway",
-            "Phần Lan": "Finland",
-            "Đan Mạch": "Denmark",
-            "Hà Lan": "Netherlands",
-            "Bỉ": "Belgium",
-            "Thụy Sĩ": "Switzerland",
-            "Áo": "Austria",
-            "Ba Lan": "Poland",
-            "Hy Lạp": "Greece",
-            "Thổ Nhĩ Kỳ": "Turkey",
-            "Ai Cập": "Egypt",
-            "Nam Phi": "South Africa",
-            "Mexico": "Mexico",
-            "Argentina": "Argentina",
-            "Úc": "Australia",
-            "New Zealand": "New Zealand"
+        
+        // Tọa độ Hoàng Sa và Trường Sa
+        const VIETNAM_ISLANDS = {
+            'Hoàng Sa': {
+                coords: [16.5322, 111.6150],
+                description: 'Quần đảo Hoàng Sa - Lãnh thổ Việt Nam'
+            },
+            'Trường Sa': {
+                coords: [10.3764, 114.3653],
+                description: 'Quần đảo Trường Sa - Lãnh thổ Việt Nam'
+            }
         };
-
-        const authors = [
-            {
-                "id": 1,
-                "name": "Isaac Newton",
-                "bio": "Isaac Newton (1643–1727) là nhà toán học, nhà vật lý, nhà thiên văn học, nhà thần học và tác giả người Anh. Ông được công nhận là một trong những nhà toán học vĩ đại nhất mọi thời đại.",
-                "works": [
-                    "Định luật vạn vật hấp dẫn",
-                    "Phép tính vi phân và tích phân",
-                    "Ba định luật chuyển động"
-                ],
-                "birthPlace": {
-                    "lat": 52.192001,
-                    "lng": -1.707344
-                },
-                "century": 17,
-                "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/GodfreyKneller-IsaacNewton-1689.jpg/220px-GodfreyKneller-IsaacNewton-1689.jpg",
-                "country": "United Kingdom",
-                "connections": []
-            },
-            {
-                "id": 2,
-                "name": "Albert Einstein",
-                "bio": "Albert Einstein (1879–1955) là nhà vật lý lý thuyết người Đức, được công nhận là một trong những nhà toán học và vật lý học vĩ đại nhất mọi thời đại. Ông nổi tiếng với thuyết tương đối.",
-                "works": [
-                    "Thuyết tương đối hẹp",
-                    "Thuyết tương đối rộng",
-                    "Phương trình E=mc²"
-                ],
-                "birthPlace": {
-                    "lat": 48.8566,
-                    "lng": 2.3522
-                },
-                "century": 20,
-                "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Einstein_1921_by_F_Schmutzer_-_restoration.jpg/220px-Einstein_1921_by_F_Schmutzer_-_restoration.jpg",
-                "country": "Germany",
-                "connections": []
-            },
-            {
-                "id": 3,
-                "name": "Pythagoras",
-                "bio": "Pythagoras (k. 570 – k. 495 TCN) là nhà toán học, triết học người Hy Lạp cổ đại. Ông nổi tiếng với định lý Pythagoras trong hình học.",
-                "works": [
-                    "Định lý Pythagoras",
-                    "Lý thuyết số học",
-                    "Hình học tam giác"
-                ],
-                "birthPlace": {
-                    "lat": 37.9838,
-                    "lng": 23.7275
-                },
-                "century": 1,
-                "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Pythagoras_in_Thomas_Stanley_History_of_Philosophy.jpg/250px-Pythagoras_in_Thomas_Stanley_History_of_Philosophy.jpg",
-                "country": "Greece",
-                "connections": []
-            },
-            {
-             "id": 4,
-                "name": "Jacob Bernoulli",
-                "bio": "Jacob Bernoulli (còn được biết đến với tên James hoặc Jacques) (27 tháng 12 năm 1654 – 16 tháng 8 năm 1705) là nhà Toán học người Thụy Sĩ. Cống hiến chủ yếu của ông là vào Hình học giải tích, Lý thuyết xác suất, Phép tính biến phân. Bất đẳng thức Bernoulli thường được dạy trong trường phổ thông mang tên này để vinh danh ông.",
-                "works": [
-                    "Hình học giải tích, Lý thuyết xác suất",
-                    "Phép tính biến phân",
-                    "Bất đẳng thức Bernoulli"
-                   
-                ],
-                "birthPlace": {
-                    "lat": 52.192001,
-                    "lng": -1.707344
-                },
-                "century": 17,
-                "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Jakob_Bernoulli.jpg/250px-Jakob_Bernoulli.jpg",
-                "country": "Switzerland",
-                "connections": []   
-            }, 
-            {
-             "id": 5,
-                "name": "Johann Bernoulli",
-                "bio": "Johann Bernoulli (27 tháng 7 năm 1667 – 1 tháng 1 năm 1748)(còn được biết đến với tên Jean hay John) là nhà toán học người Thụy Sĩ, con trai thứ 10 của Nicolaus và Margaretha Bernoulli, và là em trai của Jacob Bernoulli cũng là một nhà toán học có tiếng.",
-                "works": [
-                    "Tích phân",
-                    "Vi phân"
-                   
-                ],
-                "birthPlace": {
-                    "lat": 52.192001,
-                    "lng": -1.707344
-                },
-                "century": 17,
-                "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Johann_Bernoulli.jpg/250px-Johann_Bernoulli.jpg",
-                "country": "Switzerland",
-                "connections": [] 
-            },    
+        
+        // Danh sách nhà toán học Việt Nam
+        const VIETNAMESE_MATHEMATICIANS = [
+            'Ngô Bảo Châu', 'Hoàng Tụy', 'Lương Thế Vinh', 
+            'Phan Đình Diệu', 'Đặng Đình Áng', 'Tạ Quang Bửu',
+            'Lê Văn Thiêm', 'Nguyễn Văn Đạo', 'Vũ Hà Văn'
         ];
-
-        // Hàm tìm kiếm nhà toán học
-        function searchAuthors() {
-            const searchTerm = document.getElementById('authorSearch').value.toLowerCase();
-            const centuryFilter = document.getElementById('centurySelect').value;
-            const resultsContainer = document.getElementById('searchResults');
+        
+        // Khởi tạo bản đồ
+        function initMap() {
+            // Tạo bản đồ với trung tâm là Việt Nam
+            map = L.map('map').setView([16, 108], 5);
             
-            // Xóa kết quả cũ
-            resultsContainer.innerHTML = '';
+            // Sử dụng bản đồ OpenStreetMap
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 18,
+                minZoom: 3
+            }).addTo(map);
             
-            // Lọc tác giả theo từ khóa và thế kỷ
-            const filteredAuthors = authors.filter(author => {
-                const matchesName = author.name.toLowerCase().includes(searchTerm);
-                const matchesWorks = author.works.some(work => 
-                    work.toLowerCase().includes(searchTerm)
-                );
-                const matchesCentury = centuryFilter === 'all' || 
-                    author.century.toString() === centuryFilter;
-                
-                return (matchesName || matchesWorks) && matchesCentury;
+            // Thêm Hoàng Sa và Trường Sa
+            addVietnamIslands();
+            
+            mapLoading.classList.add('hidden');
+        }
+        
+        // Thêm Hoàng Sa và Trường Sa vào bản đồ
+        function addVietnamIslands() {
+            // Tạo icon cờ Việt Nam ĐÚNG (đỏ sao vàng)
+            const vietnamFlagIcon = L.divIcon({
+                className: 'vietnam-flag-marker',
+                html: `
+                    <div style="
+                        width: 30px;
+                        height: 20px;
+                        background-color: #da251d;
+                        border: 2px solid white;
+                        border-radius: 3px;
+                        box-shadow: 0 0 5px rgba(0,0,0,0.5);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        position: relative;
+                    ">
+                        <div style="
+                            color: #ff0;
+                            font-size: 14px;
+                            font-weight: bold;
+                        ">★</div>
+                    </div>
+                `,
+                iconSize: [30, 20],
+                iconAnchor: [15, 10]
             });
             
+            // Thêm Hoàng Sa
+            const hoangSaMarker = L.marker(VIETNAM_ISLANDS['Hoàng Sa'].coords, {
+                icon: vietnamFlagIcon,
+                title: 'Quần đảo Hoàng Sa'
+            }).addTo(map);
+            
+            hoangSaMarker.bindPopup(`
+                <div style="text-align: center; min-width: 200px;">
+                    <div style="font-weight: bold; color: #da251d; margin-bottom: 8px; font-size: 16px;">
+                        <span class="vietnam-flag-icon"></span> ${VIETNAM_ISLANDS['Hoàng Sa'].description}
+                    </div>
+                    <div style="margin-bottom: 5px;"><strong>Tọa độ:</strong> 16°32′B 111°37′Đ</div>
+                    <div style="margin-bottom: 5px;"><strong>Vị trí:</strong> Biển Đông</div>
+                    <div style="font-size: 12px; color: #666; margin-top: 8px; padding-top: 8px; border-top: 1px solid #eee;">
+                        Quần đảo Hoàng Sa thuộc chủ quyền không thể tranh cãi của Việt Nam
+                    </div>
+                </div>
+            `);
+            
+            // Thêm Trường Sa
+            const truongSaMarker = L.marker(VIETNAM_ISLANDS['Trường Sa'].coords, {
+                icon: vietnamFlagIcon,
+                title: 'Quần đảo Trường Sa'
+            }).addTo(map);
+            
+            truongSaMarker.bindPopup(`
+                <div style="text-align: center; min-width: 200px;">
+                    <div style="font-weight: bold; color: #da251d; margin-bottom: 8px; font-size: 16px;">
+                        <span class="vietnam-flag-icon"></span> ${VIETNAM_ISLANDS['Trường Sa'].description}
+                    </div>
+                    <div style="margin-bottom: 5px;"><strong>Tọa độ:</strong> 10°23′B 114°22′Đ</div>
+                    <div style="margin-bottom: 5px;"><strong>Vị trí:</strong> Biển Đông</div>
+                    <div style="font-size: 12px; color: #666; margin-top: 8px; padding-top: 8px; border-top: 1px solid #eee;">
+                        Quần đảo Trường Sa thuộc chủ quyền không thể tranh cãi của Việt Nam
+                    </div>
+                </div>
+            `);
+            
+            // Thêm vùng biển Việt Nam (đường chủ quyền)
+            const vietnamSeaArea = L.polygon([
+                [21.5, 107.5],
+                [21.5, 109.5],
+                [16.5, 109.5],
+                [16.5, 111.5],
+                [15.0, 111.5],
+                [15.0, 114.5],
+                [8.5, 114.5],
+                [8.5, 107.5],
+                [21.5, 107.5]
+            ], {
+                color: '#da251d',
+                fillColor: '#da251d',
+                fillOpacity: 0.05,
+                weight: 2,
+                dashArray: '5, 5'
+            }).addTo(map);
+            
+            vietnamSeaArea.bindPopup('<b>Vùng biển Việt Nam</b><br>Bao gồm cả Hoàng Sa và Trường Sa');
+        }
+        
+        // Tạo icon cho nhà toán học Việt Nam (cờ Việt Nam đặc biệt)
+        function createVietnameseMathematicianIcon() {
+            return L.divIcon({
+                className: 'vietnamese-mathematician-icon',
+                html: `
+                    <div style="
+                        position: relative;
+                        width: 40px;
+                        height: 40px;
+                    ">
+                        <!-- Nền tròn màu đỏ cờ Việt Nam -->
+                        <div style="
+                            position: absolute;
+                            width: 32px;
+                            height: 32px;
+                            background-color: #da251d;
+                            border-radius: 50%;
+                            border: 3px solid white;
+                            box-shadow: 0 0 8px rgba(0,0,0,0.6);
+                            top: 0;
+                            left: 0;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                        ">
+                            <!-- Ngôi sao vàng -->
+                            <div style="
+                                color: #ff0;
+                                font-size: 18px;
+                                font-weight: bold;
+                                text-shadow: 0 0 3px #000;
+                            ">★</div>
+                        </div>
+                        <!-- Mũi tên chỉ vị trí -->
+                        <div style="
+                            position: absolute;
+                            width: 0;
+                            height: 0;
+                            border-left: 6px solid transparent;
+                            border-right: 6px solid transparent;
+                            border-top: 10px solid #da251d;
+                            bottom: 0;
+                            left: 10px;
+                        "></div>
+                    </div>
+                `,
+                iconSize: [40, 40],
+                iconAnchor: [16, 40],
+                popupAnchor: [0, -35]
+            });
+        }
+        
+        // Tạo icon BASIC cho nhà toán học quốc tế (basic marker)
+        function createInternationalMathematicianIcon() {
+            // Sử dụng marker BASIC của Leaflet
+            return L.icon({
+                iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+                shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+            });
+        }
+        
+        // Kiểm tra xem có phải nhà toán học Việt Nam không
+        function isVietnameseMathematician(name) {
+            return VIETNAMESE_MATHEMATICIANS.some(vnName => 
+                name.toLowerCase().includes(vnName.toLowerCase()) || 
+                vnName.toLowerCase().includes(name.toLowerCase())
+            );
+        }
+        
+        // Hàm tìm kiếm nhà toán học
+        async function searchMathematician(name) {
+            // Hiển thị loading
+            showLoading();
+            
+            // Cập nhật input
+            searchInput.value = name;
+            currentMathematician = name;
+            
+            try {
+                // Lấy thông tin từ Wikipedia API
+                const data = await fetchWikipediaData(name);
+                
+                if (!data || data.error) {
+                    throw new Error(data?.error?.info || 'Không tìm thấy thông tin về nhà toán học này');
+                }
+                
+                // Hiển thị thông tin
+                displayMathematicianInfo(data);
+                
+            } catch (error) {
+                showError(error.message);
+            }
+        }
+        
+        // Lấy dữ liệu từ wikipedia api //
+        async function fetchWikipediaData(name) {
+            try {
+                // Thử tìm kiếm bằng tiếng Việt trước
+                const viData = await fetchWikipediaDataByLang(name, 'vi');
+                if (viData && !viData.error) {
+                    return viData;
+                }
+                
+                // Nếu không có tiếng Việt, dùng tiếng Anh
+                const enData = await fetchWikipediaDataByLang(name, 'en');
+                if (enData && !enData.error) {
+                    return enData;
+                }
+                
+                throw new Error('Không tìm thấy thông tin về nhà toán học này');
+                
+            } catch (error) {
+                throw error;
+            }
+        }
+        
+        // Lấy dữ liệu Wikipedia theo ngôn ngữ cụ thể
+        async function fetchWikipediaDataByLang(name, lang) {
+            // Tìm kiếm trang Wikipedia
+            const searchUrl = `https://${lang}.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(name)}&format=json&origin=*&utf8=1`;
+            
+            try {
+                const searchResponse = await fetch(searchUrl);
+                const searchData = await searchResponse.json();
+                
+                if (!searchData.query || !searchData.query.search || searchData.query.search.length === 0) {
+                    return { error: 'Không tìm thấy' };
+                }
+                
+                // Lấy page ID của kết quả đầu tiên
+                const pageId = searchData.query.search[0].pageid;
+                const pageTitle = searchData.query.search[0].title;
+                
+                // Lấy thông tin chi tiết từ trang
+                const pageUrl = `https://${lang}.wikipedia.org/w/api.php?action=query&pageids=${pageId}&prop=extracts|info|pageimages|categories&inprop=url&pithumbsize=500&format=json&origin=*&utf8=1&exintro=1&explaintext=1`;
+                const pageResponse = await fetch(pageUrl);
+                const pageData = await pageResponse.json();
+                
+                const page = pageData.query.pages[pageId];
+                page.lang = lang;
+                page.originalTitle = pageTitle;
+                
+                // Lấy toàn bộ nội dung để phân tích công trình
+                try {
+                    const fullContentUrl = `https://${lang}.wikipedia.org/w/api.php?action=query&pageids=${pageId}&prop=extracts&explaintext=true&format=json&origin=*`;
+                    const fullContentResponse = await fetch(fullContentUrl);
+                    const fullContentData = await fullContentResponse.json();
+                    
+                    if (fullContentData.query.pages[pageId]) {
+                        page.fullExtract = fullContentData.query.pages[pageId].extract || '';
+                    }
+                } catch (error) {
+                    page.fullExtract = page.extract || '';
+                }
+                
+                // Lấy wikidata ID từ pageprops
+                try {
+                    const pagepropsUrl = `https://${lang}.wikipedia.org/w/api.php?action=query&pageids=${pageId}&prop=pageprops&format=json&origin=*`;
+                    const pagepropsResponse = await fetch(pagepropsUrl);
+                    const pagepropsData = await pagepropsResponse.json();
+                    
+                    if (pagepropsData.query.pages[pageId]?.pageprops?.wikibase_item) {
+                        const wikidataId = pagepropsData.query.pages[pageId].pageprops.wikibase_item;
+                        page.wikidataId = wikidataId;
+                        
+                        // Lấy thêm thông tin từ Wikidata
+                        const wikidataInfo = await fetchWikidataInfo(wikidataId);
+                        page.wikidataInfo = wikidataInfo;
+                    }
+                } catch (error) {
+                    console.log('Không thể lấy Wikidata ID:', error);
+                }
+                
+                return page;
+                
+            } catch (error) {
+                console.error('Lỗi khi lấy dữ liệu Wikipedia:', error);
+                return { error: 'Lỗi kết nối đến Wikipedia' };
+            }
+        }
+        
+        // Lấy thông tin từ Wikidata
+        async function fetchWikidataInfo(wikidataId) {
+            if (!wikidataId) return null;
+            
+            const wikidataUrl = `https://www.wikidata.org/wiki/Special:EntityData/${wikidataId}.json`;
+            
+            try {
+                const response = await fetch(wikidataUrl);
+                if (!response.ok) {
+                    return null;
+                }
+                
+                const data = await response.json();
+                return data.entities && data.entities[wikidataId] ? data.entities[wikidataId] : null;
+            } catch (error) {
+                console.error('Lỗi khi lấy thông tin Wikidata:', error);
+                return null;
+            }
+        }
+        
+        // Hiển thị thông tin nhà toán học
+        async function displayMathematicianInfo(data) {
+            try {
+                // 1. Hiển thị hình ảnh
+                await displayImage(data);
+                
+                // 2. Hiển thị tiểu sử
+                displayBiography(data);
+                
+                // 3. Hiển thị công trình và khám phá
+                await displayDiscoveries(data);
+                
+                // 4. Hiển thị nhà toán học liên quan
+                await displayRelatedMathematicians(data);
+                
+                // 5. Hiển thị vị trí trên bản đồ
+                await displayLocationOnMap(data);
+                
+            } catch (error) {
+                console.error('Lỗi khi hiển thị thông tin:', error);
+                showError('Có lỗi xảy ra khi hiển thị thông tin. Vui lòng thử lại.');
+            }
+        }
+        
+        // 1. Hiển thị hình ảnh
+        async function displayImage(data) {
+            imageLoading.classList.add('hidden');
+            
+            let imageHtml = '';
+            
+            // Thử lấy ảnh từ Wikipedia trước
+            if (data.thumbnail && data.thumbnail.source) {
+                imageHtml = `<img src="${data.thumbnail.source}" alt="${data.title}" class="mathematician-image">`;
+            } else {
+                showDefaultImage(data.title);
+            }
+            
+            imageContainer.innerHTML = imageHtml;
+        }
+        
+        function showDefaultImage(title) {
+            imageContainer.innerHTML = `
+                <p style="text-align: center; margin-top: 10px; color: #7f8c8d;">Không tìm thấy hình ảnh cho "${title}"</p>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/500px-No_image_available.svg.png" alt="Không có hình ảnh" class="mathematician-image">
+            `;
+        }
+        
+        // 2. Hiển thị tiểu sử
+        function displayBiography(data) {
+            bioLoading.classList.add('hidden');
+            
+            let extract = data.extract || 'Không có thông tin tiểu sử cho nhà toán học này.';
+            
+            // Giới hạn độ dài văn bản
+            if (extract.length > 2000) {
+                extract = extract.substring(0, 2000) + '...';
+            }
+            
+            // Xử lý các ký tự đặc biệt và định dạng
+            extract = extract.replace(/\n/g, '<br>');
+            
+            biography.innerHTML = `<p>${extract}</p>`;
+            
+           
+        }
+        
+        // 3. Hiển thị công trình và khám phá
+        async function displayDiscoveries(data) {
+            discoveriesLoading.classList.add('hidden');
+            
+            discoveries.innerHTML = '';
+            
+            // Tạo container
+            const container = document.createElement('div');
+            
+            // Phân tích từ nội dung Wikipedia
+            let discoveriesFromContent = [];
+            
+            if (data.fullExtract && data.fullExtract.length > 0) {
+                const sentences = data.fullExtract.split(/[.!?]+/);
+                const mathKeywords = [
+                    'định lý', 'phương trình', 'lý thuyết', 'chứng minh', 
+                    'khám phá', 'phát minh', 'công trình', 'nghiên cứu', 'đóng góp',
+                    'theorem', 'equation', 'theory', 'proof', 'discovery', 
+                    'invention', 'work', 'research', 'contribution'
+                ];
+                
+                for (let i = 0; i < Math.min(sentences.length, 10); i++) {
+                    const sentence = sentences[i].trim();
+                    const lowerSentence = sentence.toLowerCase();
+                    
+                    // Kiểm tra xem câu có chứa từ khóa toán học không
+                    for (const keyword of mathKeywords) {
+                        if (lowerSentence.includes(keyword) && sentence.length > 30 && sentence.length < 200) {
+                            const cleanSentence = sentence.substring(0, 150);
+                            discoveriesFromContent.push({
+                                text: cleanSentence + (cleanSentence.length < sentence.length ? '...' : ''),
+                                type: 'Thông tin từ bài viết'
+                            });
+                            break;
+                        }
+                    }
+                }
+            }
+            
             // Hiển thị kết quả
-            if (filteredAuthors.length === 0) {
-                resultsContainer.innerHTML = `
-                    <div class="no-results">
-                        <i class="fas fa-search fa-2x" style="margin-bottom: 15px;"></i>
-                        <p>Không tìm thấy kết quả phù hợp với từ khóa "${searchTerm}"</p>
+            if (discoveriesFromContent.length > 0) {
+                const displayDiscoveries = discoveriesFromContent.slice(0, 6);
+                
+                displayDiscoveries.forEach(discovery => {
+                    const item = document.createElement('div');
+                    item.className = 'achievement-item';
+                    item.innerHTML = `<i class="fas fa-star"></i> ${discovery.text}`;
+                    container.appendChild(item);
+                });
+                
+                discoveries.appendChild(container);
+            } else {
+                const noDataDiv = document.createElement('div');
+                noDataDiv.className = 'no-data';
+                noDataDiv.textContent = 'Không tìm thấy thông tin về công trình. Vui lòng xem bài viết Wikipedia đầy đủ.';
+                discoveries.appendChild(noDataDiv);
+            }
+        }
+        
+        // 4. Hiển thị nhà toán học liên quan
+        async function displayRelatedMathematicians(data) {
+            relatedLoading.classList.add('hidden');
+            
+            relatedMathematicians.innerHTML = '';
+            
+            // Danh sách các nhà toán học liên quan
+            let relatedPeople = [];
+            
+            // Danh sách mặc định dựa trên tên nhà toán học
+            const relatedMap = {
+                'Ngô Bảo Châu': [
+                    { title: 'Gérard Laumon', description: 'Người hướng dẫn luận án' },
+                    { title: 'Laurent Lafforgue', description: 'Nhà toán học Fields khác' },
+                    { title: 'Andrew Wiles', description: 'Chứng minh Định lý lớn Fermat' },
+                    { title: 'Terence Tao', description: 'Nhà toán học Fields' }
+                ],
+                'Hoàng Tụy': [
+                    { title: 'Lê Văn Thiêm', description: 'Nhà toán học Việt Nam' },
+                    { title: 'Tạ Quang Bửu', description: 'Nhà toán học Việt Nam' },
+                    { title: 'Phan Đình Diệu', description: 'Nhà toán học Việt Nam' },
+                    { title: 'Nguyễn Văn Đạo', description: 'Nhà toán học Việt Nam' }
+                ],
+                'Lương Thế Vinh': [
+                    { title: 'Nguyễn Bỉnh Khiêm', description: 'Nhà toán học Việt Nam' },
+                    { title: 'Vũ Hữu', description: 'Nhà toán học Việt Nam' },
+                    { title: 'Nguyễn Hữu Thận', description: 'Nhà toán học Việt Nam' },
+                    { title: 'Lê Quý Đôn', description: 'Nhà bác học Việt Nam' }
+                ],
+                'Isaac Newton': [
+                    { title: 'Gottfried Leibniz', description: 'Đồng phát minh giải tích' },
+                    { title: 'Johannes Kepler', description: 'Định luật chuyển động hành tinh' },
+                    { title: 'Galileo Galilei', description: 'Vật lý và thiên văn học' },
+                    { title: 'Robert Hooke', description: 'Định luật đàn hồi' }
+                ],
+                'Albert Einstein': [
+                    { title: 'Niels Bohr', description: 'Cơ học lượng tử' },
+                    { title: 'Max Planck', description: 'Lượng tử hóa năng lượng' },
+                    { title: 'Erwin Schrödinger', description: 'Phương trình Schrödinger' },
+                    { title: 'Werner Heisenberg', description: 'Nguyên lý bất định' }
+                ]
+            };
+            
+            // Tìm nhà toán học liên quan dựa trên tên
+            for (const key in relatedMap) {
+                if (data.title.toLowerCase().includes(key.toLowerCase()) || 
+                    key.toLowerCase().includes(data.title.toLowerCase())) {
+                    relatedPeople = relatedMap[key];
+                    break;
+                }
+            }
+            
+            // Nếu vẫn không có, dùng danh sách chung
+            if (relatedPeople.length === 0) {
+                relatedPeople = [
+                    { title: 'Isaac Newton', description: 'Nhà vật lý, toán học' },
+                    { title: 'Albert Einstein', description: 'Nhà vật lý lý thuyết' },
+                    { title: 'Leonhard Euler', description: 'Nhà toán học, vật lý học' },
+                    { title: 'Carl Friedrich Gauss', description: 'Nhà toán học người Đức' }
+                ];
+            }
+            
+            // Hiển thị các thẻ
+            const container = document.createElement('div');
+            container.className = 'related-mathematicians';
+            
+            // Giới hạn số lượng
+            const displayCount = Math.min(relatedPeople.length, 6);
+            
+            if (displayCount > 0) {
+                for (let i = 0; i < displayCount; i++) {
+                    const person = relatedPeople[i];
+                    
+                    const card = document.createElement('div');
+                    card.className = 'related-card';
+                    card.innerHTML = `
+                        <h4>${person.title}</h4>
+                        <p>${person.description || 'Nhà toán học liên quan'}</p>
+                    `;
+                    
+                    // Thêm sự kiện click để tìm kiếm
+                    card.addEventListener('click', () => {
+                        searchMathematician(person.title);
+                    });
+                    
+                    container.appendChild(card);
+                }
+                
+                relatedMathematicians.appendChild(container);
+            } else {
+                const noDataDiv = document.createElement('div');
+                noDataDiv.className = 'no-data';
+                noDataDiv.textContent = 'Không tìm thấy thông tin về nhà toán học liên quan.';
+                relatedMathematicians.appendChild(noDataDiv);
+            }
+        }
+        
+        // 5. Hiển thị vị trí VN trên bản đồ
+        async function displayLocationOnMap(data) {
+            mapLoading.classList.add('hidden');
+            
+            // Xóa marker cũ nếu có
+            if (marker) {
+                map.removeLayer(marker);
+            }
+            
+            let coordinates = null;
+            let locationName = data.title;
+            let isVietnamese = isVietnameseMathematician(data.title);
+            
+            // Tìm tọa độ từ danh sách
+            for (const name in MATHEMATICIAN_COORDINATES) {
+                if (data.title.toLowerCase().includes(name.toLowerCase()) || 
+                    name.toLowerCase().includes(data.title.toLowerCase())) {
+                    coordinates = MATHEMATICIAN_COORDINATES[name];
+                    break;
+                }
+            }
+            
+            // Nếu không tìm thấy, sử dụng tọa độ mặc định
+            if (!coordinates) {
+                if (isVietnamese) {
+                    coordinates = [21.0285, 105.8542]; // Hà Nội
+                } else {
+                    coordinates = [0, 0]; // Tọa độ mặc định
+                }
+                locationName = `${data.title} (thông tin vị trí không xác định)`;
+            }
+            
+            let markerIcon;
+            let popupContent;
+            
+            if (isVietnamese) {
+                // Marker ĐẶC BIỆT cho nhà toán học Việt Nam - cờ đỏ sao vàng
+                markerIcon = createVietnameseMathematicianIcon();
+                popupContent = `
+                    <div style="text-align: center; min-width: 200px;">
+                        <div style="font-weight: bold; color: #da251d; margin-bottom: 8px; font-size: 16px;">
+                            <span class="vietnam-flag-icon"></span> ${data.title}
+                        </div>
+                        <div style="margin-bottom: 5px;"><strong>Vị trí:</strong> Việt Nam</div>
+                        <div style="margin-bottom: 5px;"><strong>Tọa độ:</strong> ${coordinates[0].toFixed(4)}°B, ${coordinates[1].toFixed(4)}°Đ</div>
+                        <div style="font-size: 12px; color: #da251d; margin-top: 8px; padding-top: 8px; border-top: 1px solid #eee;">
+                            <i class="fas fa-star" style="color: #ff0;"></i> Nhà toán học Việt Nam
+                        </div>
                     </div>
                 `;
             } else {
-                filteredAuthors.forEach(author => {
-                    const authorCard = document.createElement('div');
-                    authorCard.className = 'author-card';
-                    
-                    authorCard.innerHTML = `
-                        <div class="author-header">
-                            <img src="${author.image}" alt="${author.name}" class="author-image">
-                            <div class="author-info">
-                                <h3>${author.name}</h3>
-                                <div class="country">${author.country} • Thế kỷ ${author.century}</div>
-                            </div>
+                // Marker BASIC cho nhà toán học quốc tế
+                markerIcon = createInternationalMathematicianIcon();
+                popupContent = `
+                    <div style="text-align: center; min-width: 200px;">
+                        <div style="font-weight: bold; color: #3498db; margin-bottom: 8px; font-size: 16px;">
+                            <i class="fas fa-globe"></i> ${data.title}
                         </div>
-                        <div class="author-bio">${author.bio}</div>
-                        <div class="author-works">
-                            <h4>Phát hiện tiêu biểu:</h4>
-                            <div class="works-list">
-                                ${author.works.map(work => 
-                                    `<span class="work-tag">${work}</span>`
-                                ).join('')}
-                            </div>
+                        <div style="margin-bottom: 5px;"><strong>Tọa độ:</strong> ${coordinates[0].toFixed(4)}°B, ${coordinates[1].toFixed(4)}°Đ</div>
+                        <div style="font-size: 12px; color: #666; margin-top: 8px; padding-top: 8px; border-top: 1px solid #eee;">
+                            Nhà toán học quốc tế
                         </div>
-                    `;
-                    
-                    resultsContainer.appendChild(authorCard);
-                });
+                    </div>
+                `;
+            }
+            
+            // Thêm marker mới
+            marker = L.marker(coordinates, { 
+                icon: markerIcon,
+                title: data.title
+            }).addTo(map);
+            
+            marker.bindPopup(popupContent).openPopup();
+            
+            // Phóng to đến vị trí
+            if (isVietnamese) {
+                map.setView(coordinates, 7); // Phóng to hơn cho Việt Nam
+            } else {
+                map.setView(coordinates, 6);
             }
         }
-
-        // Thêm sự kiện cho nút tìm kiếm
-        document.getElementById('searchButton').addEventListener('click', searchAuthors);
         
-        // Thêm sự kiện cho phím Enter trong ô tìm kiếm
-        document.getElementById('authorSearch').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                searchAuthors();
+        // Hiển thị trạng thái loading
+        function showLoading() {
+            imageLoading.classList.remove('hidden');
+            bioLoading.classList.remove('hidden');
+            discoveriesLoading.classList.remove('hidden');
+            relatedLoading.classList.remove('hidden');
+            mapLoading.classList.remove('hidden');
+            
+            // Xóa nội dung cũ
+            imageContainer.innerHTML = '';
+            biography.innerHTML = '';
+            discoveries.innerHTML = '';
+            relatedMathematicians.innerHTML = '';
+            
+            // Ẩn các lỗi cũ
+            document.querySelectorAll('.error').forEach(el => el.remove());
+        }
+        
+        // Hiển thị thông báo lỗi
+        function showError(message) {
+            // Ẩn loading
+            imageLoading.classList.add('hidden');
+            bioLoading.classList.add('hidden');
+            discoveriesLoading.classList.add('hidden');
+            relatedLoading.classList.add('hidden');
+            mapLoading.classList.add('hidden');
+            
+            // Hiển thị lỗi ở các section
+            biography.innerHTML = `<div class="error">${message}</div>`;
+            discoveries.innerHTML = `<div class="error">${message}</div>`;
+            relatedMathematicians.innerHTML = `<div class="error">${message}</div>`;
+            imageContainer.innerHTML = `<div class="error">${message}</div>`;
+        }
+        
+        // Sự kiện khi nhấn nút tìm kiếm
+        searchBtn.addEventListener('click', () => {
+            const name = searchInput.value.trim();
+            if (name) {
+                searchMathematician(name);
+            } else {
+                alert('Vui lòng nhập tên nhà toán học');
             }
+        });
+        
+        // Sự kiện khi nhấn Enter trong ô tìm kiếm
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchBtn.click();
+            }
+        });
+        
+        // Sự kiện khi nhấn vào các ví dụ
+        exampleTags.forEach(tag => {
+            tag.addEventListener('click', () => {
+                const name = tag.getAttribute('data-name');
+                searchMathematician(name);
+            });
+        });
+        
+        // Khởi tạo bản đồ khi trang được tải
+        window.addEventListener('DOMContentLoaded', () => {
+            initMap();
+            
+           
         });
     </script>
 </body>
