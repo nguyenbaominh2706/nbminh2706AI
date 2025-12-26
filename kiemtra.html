@@ -576,6 +576,71 @@
                     '5/12'  // Câu 8
                 ]
             },
+             'toan10-ck1': {
+                multipleChoice: [
+                    'C', 'D', 'A', 'A', 'A', 'D', 'B', 'D', 'B', 'C',
+                    'A', 'D'
+                ],
+                trueFalse: [
+                    ['Đúng', 'Sai', 'Đúng', 'Sai'], // Câu 1: a,b,c,d
+                    ['Đúng', 'Sai', 'Sai', 'Đúng'], // Câu 2: a,b,c,d
+                    ['Sai', 'Đúng', 'Sai', 'Đúng']  // Câu 3: a,b,c,d
+                ],
+                shortAnswer: [
+                    '0.19',          // Câu 1
+                    '53',           // Câu 2
+                    '4',            // Câu 3
+                    '3.25',         // Câu 4
+                    '-2;2', // Câu 5 
+                    '34.2', // Câu 6
+                    '2', // Câu 7
+                    '5/12'  // Câu 8
+                ]
+            },
+            'toan10-gk2': {
+                multipleChoice: [
+                    'D', 'B', 'B', 'A', 'C', 'A', 'B', 'D', 'C', 'A',
+                    'B', 'C'
+                ],
+                trueFalse: [
+                    ['Đúng', 'Đúng', 'Sai', 'Sai'], // Câu 1: a,b,c,d
+                    ['Đúng', 'Sai', 'Đúng', 'Đúng'], // Câu 2: a,b,c,d
+                    
+                ],
+                shortAnswer: [
+                    '10',          // Câu 1
+                    '2',           // Câu 2
+                    '5',            // Câu 3
+                    '0.89',         // Câu 4
+                    '-x^2+2x+3', // Câu 5 
+                    '-7<m<-3', // Câu 6
+                    '1', // Câu 7
+                    '(x-3)^2+(y-2)^2=10'  // Câu 8
+                ]
+            },
+            'toan10-ck2': {
+                multipleChoice: [
+                    'D', 'B', 'B', 'A', 'C', 'A', 'B', 'D', 'C', 'A',
+                    'B', 'C'
+                ],
+                trueFalse: [
+                    ['Đúng', 'Đúng', 'Sai', 'Sai'], // Câu 1: a,b,c,d
+                    ['Đúng', 'Sai', 'Đúng', 'Đúng'], // Câu 2: a,b,c,d
+                    
+                ],
+                shortAnswer: [
+                    '10',          // Câu 1
+                    '2',           // Câu 2
+                    '5',            // Câu 3
+                    '0.89',         // Câu 4
+                    '-x^2+2x+3', // Câu 5 
+                    '-7<m<-3', // Câu 6
+                    '1', // Câu 7
+                    '(x-3)^2+(y-2)^2=10'  // Câu 8
+                ]
+            },
+            
+
 
         };
         
@@ -672,6 +737,87 @@
                     </div>
                     <p><strong>Đề thi:</strong></p>
                     <iframe src="https://drive.google.com/file/d/1CbILHvTTWRPLcZpkDLOkxOifxhNctHbG/preview" 
+                            class="exam-frame" 
+                            allow="autoplay">
+                    </iframe>
+                `;
+            
+            }
+            if (examId === 'toan10-ck1') {
+                return `
+                    <div class="exam-instructions">
+                        <p><strong>Thời gian làm bài: 60 phút</strong></p>
+                        <p><strong>Hình thức thi: Trắc nghiệm kết hợp tự luận</strong></p>
+                        <p><strong>Hướng dẫn chung:</strong></p>
+                        <ul>
+                            <li>Phần A: Trắc nghiệm nhiều lựa chọn (12 câu × 0.25 điểm = 3 điểm)</li>
+                            <li>Phần B: Trắc nghiệm đúng/sai (3 câu × 1 điểm = 3 điểm)</li>
+                            <li>Phần C: Trả lời ngắn (8 câu × 0.5 điểm = 4 điểm. Trong đó 4 câu trên là của trả lời ngắn, 4 câu dưới là tự luận. Lưu ý: Khi làm bài phân số được viết dưới dạng a/b, số thập phân là "." chứ không phải dấu "," tìm tọa độ (a;b) thì ghi a;b hoặc (a;b;c) thì ghi a;b;c)</li>
+                            <li>Tổng điểm: 10 điểm</li>
+                            <li>Thí sinh không được sử dụng tài liệu</li>
+                            <li>Điền đáp án vào đúng vị trí quy định</li>
+                        </ul>
+                        <p style="color: #e74c3c; font-weight: bold;">
+                            ⚠️ CẢNH BÁO: Hệ thống có tính năng chống gian lận. 
+                            Nếu bạn rời khỏi màn hình thi hoặc chuyển tab, bài thi sẽ bị hủy với 0 điểm!
+                        </p>
+                    </div>
+                    <p><strong>Đề thi:</strong></p>
+                    <iframe src="https://drive.google.com/file/d/1GCq_4NC1DemeTJ-qC3TaS4A-dg5si2_5/preview" 
+                            class="exam-frame" 
+                            allow="autoplay">
+                    </iframe>
+                `;
+            
+            }
+            if (examId === 'toan10-gk2') {
+                return `
+                    <div class="exam-instructions">
+                        <p><strong>Thời gian làm bài: 60 phút</strong></p>
+                        <p><strong>Hình thức thi: Trắc nghiệm kết hợp tự luận</strong></p>
+                        <p><strong>Hướng dẫn chung:</strong></p>
+                        <ul>
+                            <li>Phần A: Trắc nghiệm nhiều lựa chọn (12 câu × 0.25 điểm = 3 điểm)</li>
+                            <li>Phần B: Trắc nghiệm đúng/sai (3 câu × 1 điểm = 3 điểm)</li>
+                            <li>Phần C: Trả lời ngắn (8 câu × 0.5 điểm = 4 điểm. Trong đó 4 câu trên là của trả lời ngắn, 4 câu dưới là tự luận. Lưu ý: Khi làm bài phân số được viết dưới dạng a/b, số thập phân là "." chứ không phải dấu "," tìm tọa độ (a;b) thì ghi a;b hoặc (a;b;c) thì ghi a;b;c)</li>
+                            <li>Tổng điểm: 10 điểm</li>
+                            <li>Thí sinh không được sử dụng tài liệu</li>
+                            <li>Điền đáp án vào đúng vị trí quy định</li>
+                        </ul>
+                        <p style="color: #e74c3c; font-weight: bold;">
+                            ⚠️ CẢNH BÁO: Hệ thống có tính năng chống gian lận. 
+                            Nếu bạn rời khỏi màn hình thi hoặc chuyển tab, bài thi sẽ bị hủy với 0 điểm!
+                        </p>
+                    </div>
+                    <p><strong>Đề thi:</strong></p>
+                    <iframe src="https://drive.google.com/file/d/1w2Pt5ktO-ADS8gOkfXzdhXMdft4sNTQL/preview" 
+                            class="exam-frame" 
+                            allow="autoplay">
+                    </iframe>
+                `;
+            
+            }
+             if (examId === 'toan10-ck2') {
+                return `
+                    <div class="exam-instructions">
+                        <p><strong>Thời gian làm bài: 60 phút</strong></p>
+                        <p><strong>Hình thức thi: Trắc nghiệm kết hợp tự luận</strong></p>
+                        <p><strong>Hướng dẫn chung:</strong></p>
+                        <ul>
+                            <li>Phần A: Trắc nghiệm nhiều lựa chọn (12 câu × 0.25 điểm = 3 điểm)</li>
+                            <li>Phần B: Trắc nghiệm đúng/sai (3 câu × 1 điểm = 3 điểm)</li>
+                            <li>Phần C: Trả lời ngắn (8 câu × 0.5 điểm = 4 điểm. Trong đó 4 câu trên là của trả lời ngắn, 4 câu dưới là tự luận. Lưu ý: Khi làm bài phân số được viết dưới dạng a/b, số thập phân là "." chứ không phải dấu "," tìm tọa độ (a;b) thì ghi a;b hoặc (a;b;c) thì ghi a;b;c)</li>
+                            <li>Tổng điểm: 10 điểm</li>
+                            <li>Thí sinh không được sử dụng tài liệu</li>
+                            <li>Điền đáp án vào đúng vị trí quy định</li>
+                        </ul>
+                        <p style="color: #e74c3c; font-weight: bold;">
+                            ⚠️ CẢNH BÁO: Hệ thống có tính năng chống gian lận. 
+                            Nếu bạn rời khỏi màn hình thi hoặc chuyển tab, bài thi sẽ bị hủy với 0 điểm!
+                        </p>
+                    </div>
+                    <p><strong>Đề thi:</strong></p>
+                    <iframe src="https://drive.google.com/file/d/1w48m6IyLmF9suq3vAlZwagV3L-8zlhtx/preview" 
                             class="exam-frame" 
                             allow="autoplay">
                     </iframe>
