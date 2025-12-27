@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký - Hỗ Trợ Toán Học</title>
+
+    <!-- Bootstrap 5 cdn -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- FontAwesome cdn -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" 
+    integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" 
+    referrerpolicy="no-referrer" />
+    
+    <style>
+    body {
+        background: linear-gradient(135deg, #0d1117 0%, #111827 100%);
+        color: #fff;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px 0;
+    }
+
+    .auth-container {
+        max-width: 700px;
+        width: 100%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+    }
+
+    .container {
+        padding: 0 15px;
+        max-width: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .row.justify-content-center {
+        width: 100%;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+    
+    .col-md-8 {
+        margin: 0 auto;
+        padding-left: 0;
+        padding-right: 0;
+        width: 100%;
+        max-width: 700px;
+    }
+
+    .shadow-md {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .rounded-md {
+        border-radius: 12px;
+    }
+
+    #register-form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        padding: 0;
+    }
+
+    .form-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 10px;
+        padding: 16px;
+        margin-bottom: 16px;
+        width: 100%;
+        box-sizing: border-box;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .section-title {
+        font-size: 14px;
+        color: #cdd5df;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+        font-weight: 600;
+    }
+
+    .form-label {
+        color: #e5e7eb;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 6px;
+    }
+
+    .radio-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .radio-option {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: 8px;
+        background: #232a31;
+        border: 1px solid #2f343c;
+        color: #f1f5f9;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        user-select: none;
+        flex: 1;
+        justify-content: center;
+    }
+
+    .radio-option:hover {
+        border-color: #7FA1C3;
+        opacity: 0.95;
+    }
+
+    .radio-option input:checked + span {
+        color: #7FA1C3;
+        font-weight: 600;
+    }
+
+    .radio-option input {
+        display: none;
+    }
+
+    .helper-text {
+        font-size: 12px;
+        color: #a5acb8;
+        margin-top: 4px;
+    }
+
+    select.form-control {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        padding-right: 40px;
+    }
+
+    .input-wrapper {
+        position: relative;
+    }
+
+    .input-wrapper .icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #878787;
+        font-size: 14px;
+    }
+
+    .input-wrapper .icon-right {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #878787;
+        font-size: 14px;
+        pointer-events: none;
+    }
+
+    .input-wrapper input, 
+    .input-wrapper select {
+        padding-left: 40px !important;
+    }
+
+    .btn-auth {
+        background: linear-gradient(135deg, #7FA1C3 0%, #5a7fa1 100%);
+        border: none;
+        padding: 12px;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-auth:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(127, 161, 195, 0.3);
+    }
+
+    .btn-auth:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .logo-container {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #7FA1C3;
+        text-decoration: none;
+        margin-bottom: 20px;
+        font-weight: 500;
+    }
+
+    .logo-container:hover {
+        color: #9bb9d6;
+    }
+
+    h5 {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 24px;
+        color: #fff;
+    }
+
+    .login-link {
+        font-size: 14px;
+        color: #cdd5df;
+    }
+
+    .login-link a {
+        color: #7FA1C3;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+
+    .error-message {
+        color: #ff6b6b;
+        font-size: 14px;
+        text-align: center;
+        margin-top: 10px;
+        padding: 8px;
+        background: rgba(255, 107, 107, 0.1);
+        border-radius: 6px;
+        border: 1px solid rgba(255, 107, 107, 0.2);
+    }
+
+    .form-control {
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #fff;
+        border-radius: 8px;
+        padding: 10px 12px;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        background-color: rgba(255, 255, 255, 0.08);
+        border-color: #7FA1C3;
+        box-shadow: 0 0 0 0.25rem rgba(127, 161, 195, 0.25);
+        color: #fff;
+    }
+
+    .form-control::placeholder {
+        color: #a5acb8;
+    }
+
+    .loading-spinner {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: spin 1s ease-in-out infinite;
+        margin-right: 8px;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    .alert-custom {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        min-width: 300px;
+        animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+</style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center auth-container">
+            <div class="col-md-8 shadow-md p-4 rounded-md">
+                <a href="index.html" class="logo-container">
+                    <i class="fa-solid fa-house-chimney"></i> Trang chủ
+                </a>
+
+                <h5>Đăng Ký Tài Khoản</h5>
+                <form id="register-form">
+                    <div class="form-card">
+                        <p class="section-title">Thông tin tài khoản</p>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label for="username" class="form-label">Họ và tên đầy đủ *</label>
+                                <div class="input-wrapper">
+                                    <span class="icon"><i class="fa-solid fa-user"></i></span>
+                                    <input type="text" class="form-control inp-username" id="username"
+                                        placeholder="Nhập họ và tên đầy đủ" autocomplete="name" required>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label for="email" class="form-label">Email *</label>
+                                <div class="input-wrapper">
+                                    <span class="icon"><i class="fa-solid fa-envelope"></i></span>
+                                    <input type="email" class="form-control inp-email" id="email"
+                                        placeholder="email@domain.com" autocomplete="email" required>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <label for="password" class="form-label">Mật khẩu *</label>
+                                <div class="input-wrapper">
+                                    <span class="icon"><i class="fa-solid fa-lock"></i></span>
+                                    <input type="password" class="form-control" id="password"
+                                        placeholder="Từ 8 ký tự trở lên" autocomplete="new-password" minlength="8" required>
+                                </div>
+                                <div class="helper-text">Kết hợp chữ, số và ký tự đặc biệt để an toàn hơn.</div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <label for="confirm-password" class="form-label">Nhập lại mật khẩu *</label>
+                                <div class="input-wrapper">
+                                    <span class="icon"><i class="fa-solid fa-lock"></i></span>
+                                    <input type="password" class="form-control" id="confirm-password"
+                                        placeholder="Nhập lại mật khẩu" autocomplete="new-password" minlength="8" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-card">
+                        <p class="section-title">Thông tin cá nhân</p>
+                        <div class="row g-3">
+                            <div class="col-12 col-lg-6">
+                                <label class="form-label">Vai trò *</label>
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="chon" value="Học sinh" checked>
+                                        <span>Học sinh</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="chon" value="Giáo viên">
+                                        <span>Giáo viên</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <label for="sdt" class="form-label">Số điện thoại</label>
+                                <div class="input-wrapper">
+                                    <span class="icon"><i class="fa-solid fa-phone"></i></span>
+                                    <input type="tel" class="form-control inp-sdt" id="sdt"
+                                        placeholder="09xx xxx xxx" autocomplete="tel">
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <label for="dob" class="form-label">Ngày sinh</label>
+                                <div class="input-wrapper">
+                                    <span class="icon"><i class="fa-solid fa-calendar"></i></span>
+                                    <input type="date" class="form-control" id="dob" max="9999-12-31">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-card">
+                        <p class="section-title">Thông tin trường</p>
+                        <div class="row g-3">
+                            <div class="col-12 col-lg-4">
+                                <label for="province" class="form-label">Tỉnh/Thành phố</label>
+                                <div class="input-wrapper">
+                                    <span class="icon"><i class="fa-solid fa-location-dot"></i></span>
+                                    <select id="province" class="form-control">
+                                        <option value="">Chọn tỉnh/thành</option>
+                                    </select>
+                                    <span class="icon-right"><i class="fa-solid fa-angle-down"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-4">
+                                <label for="district" class="form-label">Quận/Huyện</label>
+                                <div class="input-wrapper">
+                                    <span class="icon"><i class="fa-solid fa-location-crosshairs"></i></span>
+                                    <select id="district" class="form-control">
+                                        <option value="">Chọn quận/huyện</option>
+                                    </select>
+                                    <span class="icon-right"><i class="fa-solid fa-angle-down"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-4">
+                                <label for="ward" class="form-label">Phường/Xã</label>
+                                <div class="input-wrapper">
+                                    <span class="icon"><i class="fa-solid fa-map-pin"></i></span>
+                                    <select id="ward" class="form-control">
+                                        <option value="">Chọn phường/xã</option>
+                                    </select>
+                                    <span class="icon-right"><i class="fa-solid fa-angle-down"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <label for="school" class="form-label">Tên trường</label>
+                                <div class="input-wrapper">
+                                    <span class="icon"><i class="fa-solid fa-school"></i></span>
+                                    <input type="text" class="form-control" id="school"
+                                        placeholder="Nhập tên trường">
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-3">
+                                <label for="grade" class="form-label">Khối</label>
+                                <div class="input-wrapper">
+                                    <span class="icon"><i class="fa-solid fa-layer-group"></i></span>
+                                    <select id="grade" class="form-control">
+                                        <option value="">Chọn khối</option>
+                                    </select>
+                                    <span class="icon-right"><i class="fa-solid fa-angle-down"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-3">
+                                <label for="class" class="form-label">Lớp</label>
+                                <div class="input-wrapper">
+                                    <span class="icon"><i class="fa-solid fa-people-group"></i></span>
+                                    <input type="text" class="form-control inp-class" id="class"
+                                        placeholder="Ví dụ: 10A1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-grid mt-2">
+                        <button type="submit" class="btn btn-primary btn-auth" id="register-btn">
+                            <span id="btn-text">Đăng Ký</span>
+                        </button>
+                    </div>
+                    
+                    <div id="errorMessage" class="error-message" style="display: none;"></div>
+                </form>
+
+                <p class="login-link mt-3 text-center">Bạn đã có tài khoản? <a href="login.html">Đăng nhập</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+
+        // Cấu hình Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCvcNY4x_0PcDLJ8NQxo27MKhkKhxtGC2Y",
+            authDomain: "hotrotoanhoc-961ac.firebaseapp.com",
+            projectId: "hotrotoanhoc-961ac",
+            storageBucket: "hotrotoanhoc-961ac.firebasestorage.app",
+            messagingSenderId: "211870571947",
+            appId: "1:211870571947:web:3f2e75cf369c50f8e3c6ee",
+            measurementId: "G-K9VGB04Y6J"
+        };
+
+        // Khởi tạo Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // DOM Elements
+        const inpUsername = document.querySelector("#username");
+        const inpEmail = document.querySelector("#email");
+        const inpPassword = document.querySelector("#password");
+        const inpConfirmPwd = document.querySelector("#confirm-password");
+        const registerForm = document.querySelector("#register-form");
+        const provinceSelect = document.querySelector("#province");
+        const districtSelect = document.querySelector("#district");
+        const wardSelect = document.querySelector("#ward");
+        const gradeSelect = document.querySelector("#grade");
+        const classInput = document.querySelector("#class");
+        const schoolInput = document.querySelector("#school");
+        const phoneInput = document.querySelector("#sdt");
+        const dobInput = document.querySelector("#dob");
+        const roleRadios = document.querySelectorAll('input[name="chon"]');
+        const registerBtn = document.querySelector("#register-btn");
+        const btnText = document.querySelector("#btn-text");
+        const errorDiv = document.querySelector("#errorMessage");
+
+        // Helper Functions
+        const fetchJSON = async (url) => {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`Request failed with status ${response.status}`);
+            }
+            return response.json();
+        };
+
+        const resetSelect = (selectEl, placeholder) => {
+            if (!selectEl) return;
+            selectEl.innerHTML = `<option value="">${placeholder}</option>`;
+        };
+
+        const populateOptions = (selectEl, items, placeholder) => {
+            if (!selectEl) return;
+            resetSelect(selectEl, placeholder);
+            items.forEach((item) => {
+                const option = document.createElement("option");
+                option.value = item.code;
+                option.textContent = item.name;
+                selectEl.appendChild(option);
+            });
+        };
+
+        const showLoading = (isLoading) => {
+            if (isLoading) {
+                registerBtn.disabled = true;
+                btnText.innerHTML = '<span class="loading-spinner"></span> Đang xử lý...';
+            } else {
+                registerBtn.disabled = false;
+                btnText.textContent = 'Đăng Ký';
+            }
+        };
+
+        const showError = (message) => {
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        };
+
+        const showAlert = (message, type = 'success') => {
+            // Remove existing alerts
+            const existingAlert = document.querySelector('.alert-custom');
+            if (existingAlert) existingAlert.remove();
+
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-custom`;
+            alertDiv.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="fa-solid ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'} me-2"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 3000);
+        };
+
+        // Load Provinces from API
+        const loadProvinces = async () => {
+            if (!provinceSelect) return;
+            try {
+                showLoading(true);
+                const data = await fetchJSON("https://provinces.open-api.vn/api/p/");
+                data.sort((a, b) => a.name.localeCompare(b.name));
+                populateOptions(provinceSelect, data, "Chọn tỉnh/thành");
+            } catch (error) {
+                console.error("Không thể tải danh sách tỉnh/thành", error);
+                showAlert("Không thể tải danh sách tỉnh/thành", 'error');
+            } finally {
+                showLoading(false);
+            }
+        };
+
+        const loadDistricts = async (provinceCode) => {
+            resetSelect(districtSelect, "Chọn quận/huyện");
+            resetSelect(wardSelect, "Chọn phường/xã");
+            if (!provinceCode) return;
+            try {
+                showLoading(true);
+                const provinceData = await fetchJSON(`https://provinces.open-api.vn/api/p/${provinceCode}?depth=2`);
+                const districts = provinceData.districts || [];
+                districts.sort((a, b) => a.name.localeCompare(b.name));
+                populateOptions(districtSelect, districts, "Chọn quận/huyện");
+            } catch (error) {
+                console.error("Không thể tải danh sách quận/huyện", error);
+            } finally {
+                showLoading(false);
+            }
+        };
+
+        const loadWards = async (districtCode) => {
+            resetSelect(wardSelect, "Chọn phường/xã");
+            if (!districtCode) return;
+            try {
+                showLoading(true);
+                const districtData = await fetchJSON(`https://provinces.open-api.vn/api/d/${districtCode}?depth=2`);
+                const wards = districtData.wards || [];
+                wards.sort((a, b) => a.name.localeCompare(b.name));
+                populateOptions(wardSelect, wards, "Chọn phường/xã");
+            } catch (error) {
+                console.error("Không thể tải danh sách phường/xã", error);
+            } finally {
+                showLoading(false);
+            }
+        };
+
+        const initGrades = () => {
+            if (!gradeSelect) return;
+            const grades = Array.from({ length: 12 }, (_, idx) => `${idx + 1}`);
+            resetSelect(gradeSelect, "Chọn khối");
+            grades.forEach((grade) => {
+                const option = document.createElement("option");
+                option.value = grade;
+                option.textContent = `Khối ${grade}`;
+                gradeSelect.appendChild(option);
+            });
+        };
+
+        // Main Register Handler
+        const handleRegister = async function(event) {
+            event.preventDefault();
+            
+            let username = inpUsername.value.trim();
+            let email = inpEmail.value.trim();
+            let password = inpPassword.value.trim();
+            let confirmPassword = inpConfirmPwd.value.trim();
+            let role_id = 2;
+            let selectedRole = Array.from(roleRadios).find((radio) => radio.checked)?.value || "Học sinh";
+            let phone = phoneInput?.value.trim() || "";
+            let dob = dobInput?.value || "";
+            let province = provinceSelect?.selectedOptions?.[0]?.textContent || "";
+            let district = districtSelect?.selectedOptions?.[0]?.textContent || "";
+            let ward = wardSelect?.selectedOptions?.[0]?.textContent || "";
+            let grade = gradeSelect?.value || "";
+            let className = classInput?.value.trim() || "";
+            let school = schoolInput?.value.trim() || "";
+            
+            // Validation
+            if (!username || !email || !password || !confirmPassword) {
+                showError("Vui lòng nhập đầy đủ tất cả các trường dữ liệu bắt buộc (*)");
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showError("Mật khẩu không khớp!");
+                return;
+            }
+
+            if (password.length < 8) {
+                showError("Mật khẩu phải có ít nhất 8 ký tự!");
+                return;
+            }
+
+            showLoading(true);
+
+            try {
+                // Create user in Firebase Auth
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                // Prepare user data
+                const userData = {
+                    uid: user.uid,
+                    username: username,
+                    email: email,
+                    role_id: role_id,
+                    balance: 0,
+                    createdAt: new Date().toISOString(),
+                    profile: {
+                        role: selectedRole,
+                        phone: phone,
+                        dob: dob,
+                        province: province,
+                        district: district,
+                        ward: ward,
+                        school: school,
+                        grade: grade,
+                        className: className
+                    }
+                };
+
+                // Save user data to Firestore
+                await addDoc(collection(db, 'users'), userData);
+                
+                showAlert("Đăng ký thành công!", 'success');
+                
+                // Redirect to login page after 2 seconds
+                setTimeout(() => {
+                    window.location.href = "login.html";
+                }, 2000);
+                
+            } catch (error) {
+                console.error("Lỗi đăng ký:", error);
+                
+                let errorMessage = "Đã xảy ra lỗi khi đăng ký. Vui lòng thử lại!";
+                
+                if (error.code === 'auth/email-already-in-use') {
+                    errorMessage = "Email này đã được sử dụng. Vui lòng sử dụng email khác.";
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = "Email không hợp lệ. Vui lòng kiểm tra lại.";
+                } else if (error.code === 'auth/weak-password') {
+                    errorMessage = "Mật khẩu quá yếu. Vui lòng sử dụng mật khẩu mạnh hơn.";
+                } else if (error.code === 'auth/network-request-failed') {
+                    errorMessage = "Lỗi kết nối mạng. Vui lòng kiểm tra kết nối và thử lại.";
+                }
+                
+                showError(errorMessage);
+            } finally {
+                showLoading(false);
+            }
+        };
+
+        // Event Listeners
+        if (provinceSelect) {
+            provinceSelect.addEventListener("change", (event) => {
+                loadDistricts(event.target.value);
+            });
+        }
+
+        if (districtSelect) {
+            districtSelect.addEventListener("change", (event) => {
+                loadWards(event.target.value);
+            });
+        }
+
+        if (registerForm) {
+            registerForm.addEventListener('submit', handleRegister);
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProvinces();
+            initGrades();
+            
+            // Set max date for date of birth to today
+            const today = new Date().toISOString().split('T')[0];
+            if (dobInput) {
+                dobInput.max = today;
+            }
+        });
+    </script>
+
+    <!-- Bootstrap 5 cdn -->    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
